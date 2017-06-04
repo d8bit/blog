@@ -41466,6 +41466,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -41488,11 +41495,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log("Fetched posts");
             });
         },
-        create: function create() {
+        createPost: function createPost() {
             var _this2 = this;
 
             axios.post('/posts', this.post).then(function (response) {
                 _this2.posts.push(response.data);
+                _this2.post = {};
+                console.log(response.data);
+            });
+        },
+        deletePost: function deletePost(post) {
+            var _this3 = this;
+
+            var that = this;
+            var url = '/posts/' + post.id;
+            axios.delete(url).then(function (response) {
+                var index = _this3.posts.indexOf(post);
+                that.posts.splice(index, 1);
                 console.log(response.data);
             });
         }
@@ -41541,20 +41560,20 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "col-md-8 col-md-offset-2"
+  return _c('div', [_c('div', {
+    staticClass: "col-md-12"
   }, [_c('div', {
     staticClass: "panel panel-default"
   }, [_c('div', {
     staticClass: "panel-heading"
-  }, [_vm._v("Example Component")]), _vm._v(" "), _c('form', {
+  }, [_vm._v("Create post")]), _vm._v(" "), _c('form', {
     attrs: {
       "method": "post"
     },
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.create($event)
+        _vm.createPost($event)
       }
     }
   }, [_c('input', {
@@ -41621,14 +41640,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }), _vm._v(" "), _c('input', {
+    staticClass: "btn btn-primary",
     attrs: {
       "type": "submit"
     }
-  })]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Posts")]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
   }, _vm._l((_vm.posts), function(post) {
-    return _c('div', [_c('p', [_vm._v(_vm._s(post.title))])])
-  }))])])
+    return _c('div', [_c('h2', [_vm._v(_vm._s(post.title) + " "), _c('span', {
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.deletePost(post)
+        }
+      }
+    }, [_vm._v("delete")])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(post.body))])])
+  }))])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
