@@ -13,11 +13,6 @@
 <script>
 export default {
     props: ['posts', 'post'],
-    mounted() {
-        console.log(this.post);
-        console.log(this.posts);
-        console.log('Component Post mounted.')
-    },
     methods: {
         deletePost() {
             let that = this;
@@ -30,6 +25,9 @@ export default {
                 console.log(error);
             });
         }
+    },
+    mounted() {
+        console.log('Component Post mounted.')
     }
 }
 </script>

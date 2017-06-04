@@ -41695,12 +41695,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
-    mounted: function mounted() {
-        console.log(this.post);
-        console.log(this.posts);
-        console.log('Component Post mounted.');
-    },
-
     methods: {
         deletePost: function deletePost() {
             var that = this;
@@ -41713,6 +41707,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         }
+    },
+    mounted: function mounted() {
+        console.log('Component Post mounted.');
     }
 });
 
