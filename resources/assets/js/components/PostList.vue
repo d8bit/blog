@@ -7,6 +7,7 @@
             <form v-on:submit.prevent="create" method="post">
                 <input class="form-control" type="text" v-model="post.title" name="title">
                 <input class="form-control" type="text" v-model="post.body" name="body">
+                <input class="form-control" type="date" v-model="post.date" name="date">
                 <input type="submit">
             </form>
 
@@ -29,7 +30,7 @@
         },
         created() {
             this.fetchPosts();
-            console.log(this.fetchPosts())
+            this.post.date = moment().format('YYYY-MM-DD');
         },
         methods: {
             fetchPosts() {
@@ -39,7 +40,7 @@
                 });
             },
             create() {
-                this.$http.post('/posts', this.post).then(response => {
+                axios.post('/posts', this.post).then(response => {
                     this.posts.push(response.data);
                     console.log(response.data);
                 });

@@ -18,5 +18,7 @@
     "lodash": "^4.17.4",
     "vue": "^2.1.10"
   },
-  "dependencies": {}
+  "dependencies": {
+    "moment": "^2.18.1"
+  }
 }

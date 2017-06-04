@@ -26,8 +26,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        $inputs = \Input::all();
-        Post::create($inputs);
+        //
     }
 
     /**
@@ -38,7 +37,9 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->all();
+        $post = Post::create($inputs);
+        return \Response::json($post);
     }
 
     /**
