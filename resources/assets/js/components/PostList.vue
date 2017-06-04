@@ -18,7 +18,7 @@
                 <div class="panel-heading">Posts</div>
                 <div class="panel-body">
                     <div v-for="post in posts">
-                        <h2>{{ post.title }} <span v-on:click.prevent="deletePost(post)">delete</span></h2>
+                        <h2>{{ post.title }} ({{ post.date }})<span v-on:click.prevent="deletePost(post)">delete</span></h2>
                         <p>{{ post.body }}</p>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
             },
             deletePost(post) {
                 let that = this;
-                let url = '/posts/' + 10000;
+                let url = '/posts/' + post.id;
                 axios.delete(url).then(response => {
                     const index = this.posts.indexOf(post);
                     that.posts.splice(index, 1);

@@ -41508,7 +41508,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             var that = this;
-            var url = '/posts/' + 10000;
+            var url = '/posts/' + post.id;
             axios.delete(url).then(function (response) {
                 var index = _this3.posts.indexOf(post);
                 that.posts.splice(index, 1);
@@ -41655,7 +41655,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Posts")]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
   }, _vm._l((_vm.posts), function(post) {
-    return _c('div', [_c('h2', [_vm._v(_vm._s(post.title) + " "), _c('span', {
+    return _c('div', [_c('h2', [_vm._v(_vm._s(post.title) + " (" + _vm._s(post.date) + ")"), _c('span', {
       on: {
         "click": function($event) {
           $event.preventDefault();
