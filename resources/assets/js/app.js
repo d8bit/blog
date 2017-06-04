@@ -8,7 +8,6 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-// Vue.use(require('vue-resource'));
 Vue.$http = require('vue-resource');
 
 import Post from './components//Post.vue';

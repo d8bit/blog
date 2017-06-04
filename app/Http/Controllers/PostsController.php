@@ -26,7 +26,8 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        $inputs = \Input::all();
+        Post::create($inputs);
     }
 
     /**
