@@ -17,15 +17,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Posts</div>
                 <div class="panel-body">
-                    <div v-for="post in posts">
-                        <h2>
-                            {{ post.title }} ({{ post.date }})
-                            <button class="btn btn-danger" v-on:click.prevent="deletePost(post)">
-                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            </button>
-                        </h2>
-                        <p>{{ post.body }}</p>
-                    </div>
+                    <Post  v-for="post in posts" v-bind:post="post" v-bind:key="post.id"></Post>
                 </div>
             </div>
         </div>
@@ -33,45 +25,50 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                posts: [],
-                post:{}
-            }
-        },
-        created() {
-            this.fetchPosts();
-            this.post.date = moment().format('YYYY-MM-DD');
-        },
-        methods: {
-            fetchPosts() {
-                axios.get('/posts').then( response => {
-                    this.posts = response.data;
-                    console.log("Fetched posts")
-                });
-            },
-            createPost() {
-                axios.post('/posts', this.post).then(response => {
-                    this.posts.push(response.data);
-                    this.post = {'date': moment().format('YYYY-MM-DD')};
-                    console.log(response.data);
-                });
-            },
-            deletePost(post) {
-                let that = this;
-                let url = '/posts/' + post.id;
-                axios.delete(url).then(response => {
-                    const index = this.posts.indexOf(post);
-                    that.posts.splice(index, 1);
-                    console.log(response.data);
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            }
-        },
-        mounted() {
-            console.log('Component PostList mounted.')
+import Post from './Post.vue';
+export default {
+    components: { Post },
+    data() {
+        return {
+            posts: [],
+            post:{}
         }
+    },
+    created() {
+        this.fetchPosts();
+        this.post.date = moment().format('YYYY-MM-DD');
+    },
+    methods: {
+        fetchPosts() {
+            axios.get('/posts').then( response => {
+                this.posts = response.data;
+                console.log("Fetched posts")
+            });
+        },
+        createPost() {
+            axios.post('/posts', this.post).then(response => {
+                this.posts.push(response.data);
+                this.post = {'date': moment().format('YYYY-MM-DD')};
+                console.log(response.data);
+            });
+        },
+        deletePost(post) {
+            let that = this;
+            let url = '/posts/' + post.id;
+            axios.delete(url).then(response => {
+                const index = this.posts.indexOf(post);
+                that.posts.splice(index, 1);
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
+    mounted() {
+        console.log('Component PostList mounted.')
     }
+}
 </script>
+
+<style lang="css">
+</style>

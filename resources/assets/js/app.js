@@ -22,5 +22,5 @@ import PostList from './components/PostList.vue';
 
 const app = new Vue({
     el: '#app',
-    components: { PostList }
+    components: { Post, PostList }
 });
