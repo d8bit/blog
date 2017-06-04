@@ -18,7 +18,12 @@
                 <div class="panel-heading">Posts</div>
                 <div class="panel-body">
                     <div v-for="post in posts">
-                        <h2>{{ post.title }} ({{ post.date }})<span v-on:click.prevent="deletePost(post)">delete</span></h2>
+                        <h2>
+                            {{ post.title }} ({{ post.date }})
+                            <button class="btn btn-danger" v-on:click.prevent="deletePost(post)">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                        </h2>
                         <p>{{ post.body }}</p>
                     </div>
                 </div>
