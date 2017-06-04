@@ -41500,7 +41500,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.post('/posts', this.post).then(function (response) {
                 _this2.posts.push(response.data);
-                _this2.post = {};
+                _this2.post = { 'date': moment().format('YYYY-MM-DD') };
                 console.log(response.data);
             });
         },
@@ -41508,7 +41508,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this3 = this;
 
             var that = this;
-            var url = '/posts/' + post.id;
+            var url = '/posts/' + 10000;
             axios.delete(url).then(function (response) {
                 var index = _this3.posts.indexOf(post);
                 that.posts.splice(index, 1);

@@ -49,13 +49,13 @@
             createPost() {
                 axios.post('/posts', this.post).then(response => {
                     this.posts.push(response.data);
-                    this.post = {};
+                    this.post = {'date': moment().format('YYYY-MM-DD')};
                     console.log(response.data);
                 });
             },
             deletePost(post) {
                 let that = this;
-                let url = '/posts/' + post.id;
+                let url = '/posts/' + 10000;
                 axios.delete(url).then(response => {
                     const index = this.posts.indexOf(post);
                     that.posts.splice(index, 1);
