@@ -41513,6 +41513,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var index = _this3.posts.indexOf(post);
                 that.posts.splice(index, 1);
                 console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
             });
         }
     },

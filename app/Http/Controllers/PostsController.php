@@ -87,6 +87,6 @@ class PostsController extends Controller
         if (Post::destroy($id)) {
             return \Response::json('Post deleted');
         }
-        return \Response::json('Post not found', 500);
+        return \Response::json("Post not found", 400);
     }
 }

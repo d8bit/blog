@@ -60,6 +60,8 @@
                     const index = this.posts.indexOf(post);
                     that.posts.splice(index, 1);
                     console.log(response.data);
+                }).catch(function (error) {
+                    console.log(error);
                 });
             }
         },
