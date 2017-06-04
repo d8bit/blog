@@ -17,7 +17,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Posts</div>
                 <div class="panel-body">
-                    <Post  v-for="post in posts" v-bind:post="post" v-bind:key="post.id"></Post>
+                    <Post  v-for="post in posts" v-bind:posts="posts" v-bind:post="post" v-bind:key="post.id"></Post>
                 </div>
             </div>
         </div>
@@ -26,6 +26,7 @@
 
 <script>
 import Post from './Post.vue';
+
 export default {
     components: { Post },
     data() {
@@ -69,6 +70,3 @@ export default {
     }
 }
 </script>
-
-<style lang="css">
-</style>
