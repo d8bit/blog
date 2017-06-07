@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdatePostsTranslations extends Migration
+class ModifyPostTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,12 +14,13 @@ class UpdatePostsTranslations extends Migration
     public function up()
     {
         Schema::table('post_translations', function (Blueprint $table) {
-            $table->integer('post_id')
+            $table->dropColumn('language');
+            $table->integer('language_id')
                 ->unsigned()
                 ->after('id');
-            $table->foreign('post_id')
+            $table->foreign('language_id')
                 ->references('id')
-                ->on('posts')
+                ->on('languages')
                 ->onDelete('cascade');
         });
     }
@@ -32,8 +33,9 @@ class UpdatePostsTranslations extends Migration
     public function down()
     {
         Schema::table('post_translations', function (Blueprint $table) {
-            $table->dropForeign(['post_id']);
-            $table->dropColumn('post_id');
+            $table->dropForeign(['language_id']);
+            $table->dropColumn('language_id');
+            $table->string('language');
         });
     }
 }
