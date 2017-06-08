@@ -4,30 +4,68 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Create post</div>
 
-                <form v-on:submit.prevent="createPost" method="post">
-                    <div class="form-group">
-                        <label for="title">Title</label>
-                        <input class="form-control" type="text" v-model="post.title" name="title">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#default">Default</a></li>
+                    <li v-for="language in languages">
+                        <a data-toggle="tab" v-bind:href="'#language' + language.id">{{language.name}}</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="default" class="tab-pane fade in active">
+                        <form v-on:submit.prevent="createPost" method="post">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input class="form-control" type="text" v-model="post.title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="body">Body</label>
+                                <textarea class="form-control" type="text" v-model="post.body" name="body"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input class="form-control" type="date" v-model="post.date" name="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <select name="language" class="form-control">
+                                    <option value="">&nbsp;</option>
+                                    <option v-for="language in languages" v-bind:value="language.id" v-bind:key="language.id">
+                                    {{language.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <p>Lang: default</p>
+                            <input class="btn btn-primary" type="submit">
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="body">Body</label>
-                        <input class="form-control" type="text" v-model="post.body" name="body">
+                    <div v-for="language in languages" v-bind:id="'language' + language.id" class="tab-pane fade">
+                        <form v-on:submit.prevent="createPost" method="post">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input class="form-control" type="text" v-model="post.title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="body">Body</label>
+                                <textarea class="form-control" type="text" v-model="post.body" name="body"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input class="form-control" type="date" v-model="post.date" name="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <select name="language" class="form-control">
+                                    <option value="">&nbsp;</option>
+                                    <option v-for="language in languages" v-bind:value="language.id" v-bind:key="language.id">
+                                    {{language.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <p>Lang: {{language.name}}</p>
+                            <input class="btn btn-primary" type="submit">
+                        </form>
                     </div>
-                    <div class="form-group">
-                        <label for="date">Date</label>
-                        <input class="form-control" type="date" v-model="post.date" name="date">
-                    </div>
-                    <div class="form-group">
-                        <label for="language">Language</label>
-                        <select name="language" class="form-control">
-                            <option value="">&nbsp;</option>
-                            <option v-for="language in languages" v-bind:value="language.id" v-bind:key="language.id">
-                                {{language.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <input class="btn btn-primary" type="submit">
-                </form>
+                </div>
             </div>
         </div>
 

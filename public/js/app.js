@@ -17408,6 +17408,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -47781,7 +47819,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel panel-default"
   }, [_c('div', {
     staticClass: "panel-heading"
-  }, [_vm._v("Create post")]), _vm._v(" "), _c('form', {
+  }, [_vm._v("Create post")]), _vm._v(" "), _c('ul', {
+    staticClass: "nav nav-tabs"
+  }, [_vm._m(0), _vm._v(" "), _vm._l((_vm.languages), function(language) {
+    return _c('li', [_c('a', {
+      attrs: {
+        "data-toggle": "tab",
+        "href": '#language' + language.id
+      }
+    }, [_vm._v(_vm._s(language.name))])])
+  })], 2), _vm._v(" "), _c('div', {
+    staticClass: "tab-content"
+  }, [_c('div', {
+    staticClass: "tab-pane fade in active",
+    attrs: {
+      "id": "default"
+    }
+  }, [_c('form', {
     attrs: {
       "method": "post"
     },
@@ -47824,7 +47878,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "body"
     }
-  }, [_vm._v("Body")]), _vm._v(" "), _c('input', {
+  }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47893,13 +47947,138 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": language.id
       }
-    }, [_vm._v("\n                            " + _vm._s(language.name) + "\n                        ")])
-  })], 2)]), _vm._v(" "), _c('input', {
+    }, [_vm._v("\n                                " + _vm._s(language.name) + "\n                                ")])
+  })], 2)]), _vm._v(" "), _c('p', [_vm._v("Lang: default")]), _vm._v(" "), _c('input', {
     staticClass: "btn btn-primary",
     attrs: {
       "type": "submit"
     }
-  })])])]), _vm._v(" "), _c('div', {
+  })])]), _vm._v(" "), _vm._l((_vm.languages), function(language) {
+    return _c('div', {
+      staticClass: "tab-pane fade",
+      attrs: {
+        "id": 'language' + language.id
+      }
+    }, [_c('form', {
+      attrs: {
+        "method": "post"
+      },
+      on: {
+        "submit": function($event) {
+          $event.preventDefault();
+          _vm.createPost($event)
+        }
+      }
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "title"
+      }
+    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.post.title),
+        expression: "post.title"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": "title"
+      },
+      domProps: {
+        "value": (_vm.post.title)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.post.title = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "body"
+      }
+    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.post.body),
+        expression: "post.body"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": "body"
+      },
+      domProps: {
+        "value": (_vm.post.body)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.post.body = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "date"
+      }
+    }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.post.date),
+        expression: "post.date"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "date",
+        "name": "date"
+      },
+      domProps: {
+        "value": (_vm.post.date)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.post.date = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": "language"
+      }
+    }, [_vm._v("Language")]), _vm._v(" "), _c('select', {
+      staticClass: "form-control",
+      attrs: {
+        "name": "language"
+      }
+    }, [_c('option', {
+      attrs: {
+        "value": ""
+      }
+    }, [_vm._v(" ")]), _vm._v(" "), _vm._l((_vm.languages), function(language) {
+      return _c('option', {
+        key: language.id,
+        domProps: {
+          "value": language.id
+        }
+      }, [_vm._v("\n                                " + _vm._s(language.name) + "\n                                ")])
+    })], 2)]), _vm._v(" "), _c('p', [_vm._v("Lang: " + _vm._s(language.name))]), _vm._v(" "), _c('input', {
+      staticClass: "btn btn-primary",
+      attrs: {
+        "type": "submit"
+      }
+    })])])
+  })], 2)])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
   }, [_c('div', {
     staticClass: "panel panel-default"
@@ -47916,7 +48095,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })
   }))])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
+    staticClass: "active"
+  }, [_c('a', {
+    attrs: {
+      "data-toggle": "tab",
+      "href": "#default"
+    }
+  }, [_vm._v("Default")])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
