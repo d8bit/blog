@@ -10,9 +10,9 @@
                         <a data-toggle="tab" v-bind:href="'#language' + language.id">{{language.name}}</a>
                     </li>
                 </ul>
-                <div class="tab-content">
-                    <div id="default" class="tab-pane fade in active">
-                        <form v-on:submit.prevent="createPost" method="post">
+                <form v-on:submit.prevent="createPost" method="post">
+                    <div class="tab-content">
+                        <div id="default" class="tab-pane fade in active">
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input class="form-control" type="text" v-model="post.title" name="title">
@@ -36,10 +36,8 @@
                             </div>
                             <p>Lang: default</p>
                             <input class="btn btn-primary" type="submit">
-                        </form>
-                    </div>
-                    <div v-for="language in languages" v-bind:id="'language' + language.id" class="tab-pane fade">
-                        <form v-on:submit.prevent="createPost" method="post">
+                        </div>
+                        <div v-for="language in languages" v-bind:id="'language' + language.id" class="tab-pane fade">
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input class="form-control" type="text" v-model="post.title" name="title">
@@ -63,9 +61,9 @@
                             </div>
                             <p>Lang: {{language.name}}</p>
                             <input class="btn btn-primary" type="submit">
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 

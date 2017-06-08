@@ -17444,8 +17444,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -47828,14 +47826,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "href": '#language' + language.id
       }
     }, [_vm._v(_vm._s(language.name))])])
-  })], 2), _vm._v(" "), _c('div', {
-    staticClass: "tab-content"
-  }, [_c('div', {
-    staticClass: "tab-pane fade in active",
-    attrs: {
-      "id": "default"
-    }
-  }, [_c('form', {
+  })], 2), _vm._v(" "), _c('form', {
     attrs: {
       "method": "post"
     },
@@ -47844,6 +47835,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         $event.preventDefault();
         _vm.createPost($event)
       }
+    }
+  }, [_c('div', {
+    staticClass: "tab-content"
+  }, [_c('div', {
+    staticClass: "tab-pane fade in active",
+    attrs: {
+      "id": "default"
     }
   }, [_c('div', {
     staticClass: "form-group"
@@ -47953,21 +47951,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "submit"
     }
-  })])]), _vm._v(" "), _vm._l((_vm.languages), function(language) {
+  })]), _vm._v(" "), _vm._l((_vm.languages), function(language) {
     return _c('div', {
       staticClass: "tab-pane fade",
       attrs: {
         "id": 'language' + language.id
-      }
-    }, [_c('form', {
-      attrs: {
-        "method": "post"
-      },
-      on: {
-        "submit": function($event) {
-          $event.preventDefault();
-          _vm.createPost($event)
-        }
       }
     }, [_c('div', {
       staticClass: "form-group"
@@ -48077,8 +48065,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "type": "submit"
       }
-    })])])
-  })], 2)])]), _vm._v(" "), _c('div', {
+    })])
+  })], 2)])])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12"
   }, [_c('div', {
     staticClass: "panel panel-default"
