@@ -17425,25 +17425,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -47859,7 +47840,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "name": "title"
+      "name": 'title_default'
     },
     domProps: {
       "value": (_vm.post.title)
@@ -47924,29 +47905,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.post.date = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
+  })]), _vm._v(" "), _c('input', {
     attrs: {
-      "for": "language"
-    }
-  }, [_vm._v("Language")]), _vm._v(" "), _c('select', {
-    staticClass: "form-control",
-    attrs: {
-      "name": "language"
-    }
-  }, [_c('option', {
-    attrs: {
+      "type": "hidden",
+      "name": "language_id",
       "value": ""
     }
-  }, [_vm._v(" ")]), _vm._v(" "), _vm._l((_vm.languages), function(language) {
-    return _c('option', {
-      key: language.id,
-      domProps: {
-        "value": language.id
-      }
-    }, [_vm._v("\n                                " + _vm._s(language.name) + "\n                                ")])
-  })], 2)]), _vm._v(" "), _c('p', [_vm._v("Lang: default")]), _vm._v(" "), _c('input', {
+  }), _vm._v(" "), _c('input', {
     staticClass: "btn btn-primary",
     attrs: {
       "type": "submit"
@@ -47973,7 +47938,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "form-control",
       attrs: {
         "type": "text",
-        "name": "title"
+        "name": 'title_' + language.name
       },
       domProps: {
         "value": (_vm.post.title)
@@ -48000,7 +47965,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "form-control",
       attrs: {
         "type": "text",
-        "name": "body"
+        "name": 'body_' + language.name
       },
       domProps: {
         "value": (_vm.post.body)
@@ -48027,7 +47992,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "form-control",
       attrs: {
         "type": "date",
-        "name": "date"
+        "name": 'date_' + language.name
       },
       domProps: {
         "value": (_vm.post.date)
@@ -48038,29 +48003,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.post.date = $event.target.value
         }
       }
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": "language"
-      }
-    }, [_vm._v("Language")]), _vm._v(" "), _c('select', {
-      staticClass: "form-control",
-      attrs: {
-        "name": "language"
-      }
-    }, [_c('option', {
-      attrs: {
-        "value": ""
-      }
-    }, [_vm._v(" ")]), _vm._v(" "), _vm._l((_vm.languages), function(language) {
-      return _c('option', {
-        key: language.id,
-        domProps: {
-          "value": language.id
-        }
-      }, [_vm._v("\n                                " + _vm._s(language.name) + "\n                                ")])
-    })], 2)]), _vm._v(" "), _c('p', [_vm._v("Lang: " + _vm._s(language.name))]), _vm._v(" "), _c('input', {
+    })]), _vm._v(" "), _c('input', {
       staticClass: "btn btn-primary",
       attrs: {
         "type": "submit"
