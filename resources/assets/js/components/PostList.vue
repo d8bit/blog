@@ -5,9 +5,27 @@
                 <div class="panel-heading">Create post</div>
 
                 <form v-on:submit.prevent="createPost" method="post">
-                    <input class="form-control" type="text" v-model="post.title" name="title">
-                    <input class="form-control" type="text" v-model="post.body" name="body">
-                    <input class="form-control" type="date" v-model="post.date" name="date">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input class="form-control" type="text" v-model="post.title" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="body">Body</label>
+                        <input class="form-control" type="text" v-model="post.body" name="body">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input class="form-control" type="date" v-model="post.date" name="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="language">Language</label>
+                        <select name="language" class="form-control">
+                            <option value="">&nbsp;</option>
+                            <option v-for="language in languages" v-bind:value="language.id" v-bind:key="language.id">
+                                {{language.name}}
+                            </option>
+                        </select>
+                    </div>
                     <input class="btn btn-primary" type="submit">
                 </form>
             </div>
@@ -32,11 +50,13 @@ import Post from './Post.vue';
         data() {
             return {
                 posts: [],
-                post:{}
+                post:{},
+                languages:[]
             }
         },
         created() {
             this.fetchPosts();
+            this.fetchLanguages();
             this.post.date = moment().format('YYYY-MM-DD');
         },
         methods: {
@@ -44,6 +64,12 @@ import Post from './Post.vue';
                 axios.get('/posts').then( response => {
                     this.posts = response.data;
                     console.log("Fetched posts")
+                });
+            },
+            fetchLanguages() {
+                axios.get('/languages').then( response => {
+                    this.languages = response.data;
+                    console.log("Fetched languages")
                 });
             },
             createPost() {

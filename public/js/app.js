@@ -17390,6 +17390,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -17398,11 +17416,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             posts: [],
-            post: {}
+            post: {},
+            languages: []
         };
     },
     created: function created() {
         this.fetchPosts();
+        this.fetchLanguages();
         this.post.date = moment().format('YYYY-MM-DD');
     },
 
@@ -17415,22 +17435,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log("Fetched posts");
             });
         },
-        createPost: function createPost() {
+        fetchLanguages: function fetchLanguages() {
             var _this2 = this;
 
+            axios.get('/languages').then(function (response) {
+                _this2.languages = response.data;
+                console.log("Fetched languages");
+            });
+        },
+        createPost: function createPost() {
+            var _this3 = this;
+
             axios.post('/posts', this.post).then(function (response) {
-                _this2.posts.push(response.data);
-                _this2.post = { 'date': moment().format('YYYY-MM-DD') };
+                _this3.posts.push(response.data);
+                _this3.post = { 'date': moment().format('YYYY-MM-DD') };
                 console.log(response.data);
             });
         },
         deletePost: function deletePost(post) {
-            var _this3 = this;
+            var _this4 = this;
 
             var that = this;
             var url = '/posts/' + post.id;
             axios.delete(url).then(function (response) {
-                var index = _this3.posts.indexOf(post);
+                var index = _this4.posts.indexOf(post);
                 that.posts.splice(index, 1);
                 console.log(response.data);
             }).catch(function (error) {
@@ -47763,7 +47791,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.createPost($event)
       }
     }
-  }, [_c('input', {
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "title"
+    }
+  }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47784,7 +47818,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.post.title = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('input', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "body"
+    }
+  }, [_vm._v("Body")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47805,7 +47845,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.post.body = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('input', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "date"
+    }
+  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47826,7 +47872,29 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.post.date = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('input', {
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "language"
+    }
+  }, [_vm._v("Language")]), _vm._v(" "), _c('select', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "language"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v(" ")]), _vm._v(" "), _vm._l((_vm.languages), function(language) {
+    return _c('option', {
+      key: language.id,
+      domProps: {
+        "value": language.id
+      }
+    }, [_vm._v("\n                            " + _vm._s(language.name) + "\n                        ")])
+  })], 2)]), _vm._v(" "), _c('input', {
     staticClass: "btn btn-primary",
     attrs: {
       "type": "submit"
