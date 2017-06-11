@@ -10,7 +10,7 @@ class Post extends Model
 
     public function translations()
     {
-        return $this->hasMany('App\Models\PostTranslations', 'post_id', 'id');
+        return $this->hasMany('App\Models\PostTranslation', 'post_id', 'id');
     }
 
     public static function scopeTranslated($query)

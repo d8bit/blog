@@ -5,45 +5,28 @@
                 <div class="panel-heading">Create post</div>
 
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#default">Default</a></li>
-                    <li v-for="language in languages">
-                        <a data-toggle="tab" v-bind:href="'#language' + language.id">{{language.name}}</a>
+                    <li v-for="language in languages" v-bind:class="{ active: (language.name == 'es')}" >
+                        <a data-toggle="tab" v-bind:href="'#language' + language.name">{{language.name}}</a>
                     </li>
                 </ul>
-                <form v-on:submit.prevent="createPost" method="post">
+                <form name="new-post" v-on:submit.prevent="createPost" method="post">
                     <div class="tab-content">
-                        <div id="default" class="tab-pane fade in active">
+                        <div v-for="(postTranslation, index) in postTranslations" v-bind:id="'language' + postTranslation.language" v-bind:class="[(postTranslation.language == 'es') ? activeTabClass:'', tabClass]">
                             <div class="form-group">
-                                <label for="title">Title</label>
-                                <input class="form-control" type="text" v-model="post.title" v-bind:name="'title_default'">
+                                <label v-bind:for="postTranslation.title">Title</label>
+                                <input class="form-control" type="text" v-model="postTranslations[index].title" v-bind:name="'title_' + postTranslation.language">
                             </div>
                             <div class="form-group">
-                                <label for="body">Body</label>
-                                <textarea class="form-control" type="text" v-model="post.body" name="body"></textarea>
+                                <label v-bind:for="postTranslation.body">Body</label>
+                                <textarea class="form-control" type="text" v-model="postTranslations[index].body" v-bind:name="'body_' + postTranslation.language"></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input class="form-control" type="date" v-model="post.date" name="date">
-                            </div>
-                            <input type="hidden" name="language_id" value="">
-                            <input class="btn btn-primary" type="submit">
-                        </div>
-                        <div v-for="language in languages" v-bind:id="'language' + language.id" class="tab-pane fade">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input class="form-control" type="text" v-model="post.title" v-bind:name="'title_' + language.name">
-                            </div>
-                            <div class="form-group">
-                                <label for="body">Body</label>
-                                <textarea class="form-control" type="text" v-model="post.body" v-bind:name="'body_' + language.name"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input class="form-control" type="date" v-model="post.date" v-bind:name="'date_' + language.name">
-                            </div>
-                            <input class="btn btn-primary" type="submit">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input class="form-control" type="date" v-model="post.date" name="date">
+                    </div>
+                    <input class="btn btn-primary" type="submit">
                 </form>
             </div>
         </div>
@@ -68,7 +51,10 @@ import Post from './Post.vue';
             return {
                 posts: [],
                 post:{},
-                languages:[]
+                languages:[],
+                postTranslations:[],
+                activeTabClass: 'in active',
+                tabClass: 'tab-pane fade'
             }
         },
         created() {
@@ -84,13 +70,22 @@ import Post from './Post.vue';
                 });
             },
             fetchLanguages() {
+                let that = this;
                 axios.get('/languages').then( response => {
                     this.languages = response.data;
+                    this.languages.forEach(function(item) {
+                        let postTranslation = {
+                            'title': '',
+                            'body': '',
+                            'language': item.name
+                        };
+                        that.postTranslations.push(postTranslation);
+                    });
                     console.log("Fetched languages")
                 });
             },
             createPost() {
-                axios.post('/posts', this.post).then(response => {
+                axios.post('/posts', this.postTranslations).then(response => {
                     this.posts.push(response.data);
                     this.post = {'date': moment().format('YYYY-MM-DD')};
                     console.log(response.data);
