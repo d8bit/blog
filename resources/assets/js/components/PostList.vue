@@ -77,6 +77,8 @@ import Post from './Post.vue';
                         let postTranslation = {
                             'title': '',
                             'body': '',
+                            'date': that.post.date,
+                            'language_id': item.id,
                             'language': item.name
                         };
                         that.postTranslations.push(postTranslation);
@@ -85,6 +87,7 @@ import Post from './Post.vue';
                 });
             },
             createPost() {
+                this.postTranslations['date'] = this.post.date;
                 axios.post('/posts', this.postTranslations).then(response => {
                     this.posts.push(response.data);
                     this.post = {'date': moment().format('YYYY-MM-DD')};

@@ -17,7 +17,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::translated()->get();
+        $posts = Post::translated()
+            ->orderBy('date', 'desc')
+            ->get();
         return \Response::json($posts);
     }
 
@@ -40,24 +42,20 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $post = new Post();
-        $post->title = $request->get('title');
-        $post->body = $request->get('body');
-        $post->date = $request->get('date');
+        $translations = $request->all();
+        $post->date = $translations[0]['date'];
         $post->save();
-        $languages = Language::all();
-        foreach ($languages as $language) {
-            $title = "title_".$language->title;
-            if ($title != '') {
-                $postTranslation = new PostTranslation(
-                    [
-                        'language_id' => $language->id,
-                        'title' => $request->get('title_'.$language->name),
-                        'body' => $request->get('body_'.$language->name)
-                    ]
-                );
-                $post->translations()->save($postTranslation);
+        foreach ($request->all() as $request) {
+            if ($request['title'] == '') {
+                continue;
             }
+            $postTranslation = new PostTranslation();
+            $postTranslation->title = $request['title'];
+            $postTranslation->body = $request['body'];
+            $postTranslation->language_id = $request['language_id'];
+            $post->translations()->save($postTranslation);
         }
+        $post = Post::translated()->find($post->id);
         return \Response::json($post);
     }
 

@@ -17448,6 +17448,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     var postTranslation = {
                         'title': '',
                         'body': '',
+                        'date': that.post.date,
+                        'language_id': item.id,
                         'language': item.name
                     };
                     that.postTranslations.push(postTranslation);
@@ -17458,6 +17460,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createPost: function createPost() {
             var _this3 = this;
 
+            this.postTranslations['date'] = this.post.date;
             axios.post('/posts', this.postTranslations).then(function (response) {
                 _this3.posts.push(response.data);
                 _this3.post = { 'date': moment().format('YYYY-MM-DD') };
