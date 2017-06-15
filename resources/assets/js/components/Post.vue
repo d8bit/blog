@@ -7,12 +7,15 @@
             </button>
         </h2>
         <p>{{ post.body }}</p>
+        <Modal v-bind:post="post" v-bind:key="post.id"></Modal>
     </div>
 </template>
 
 <script>
+import Modal from './Modal.vue';
 export default {
     props: ['posts', 'post'],
+    components: { Modal },
     methods: {
         deletePost() {
             let that = this;
