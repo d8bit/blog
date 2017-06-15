@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div v-on:click.prevent="showModal()">
+        <div>
             <h2>
-                {{ post.title }} ({{ post.date }})
+                <span v-on:click.prevent="showModal()">{{ post.title }} ({{ post.date }})</span>
                 <button class="btn btn-danger" v-on:click.prevent="deletePost()">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </button>
             </h2>
-            <p>{{ post.body }}</p>
+            <p v-on:click.prevent="showModal()">{{ post.body }}</p>
         </div>
         <Modal v-bind:post="post" v-bind:key="post.id"></Modal>
     </div>
