@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal fade" tabindex="-1" role="dialog" v-bind:id="'post-' + post.id">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -8,7 +8,13 @@
                         <h4 class="modal-title">Modal title</h4>
                     </div>
                     <div class="modal-body">
-                        <p>One fine body&hellip;</p>
+                        <form name="edit-post" v-on:submit.prevent="createPost" method="post">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input class="form-control" type="text" v-model="post.title" name="title">
+                            </div>
+                            <input class="btn btn-primary" type="submit">
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

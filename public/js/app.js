@@ -17338,12 +17338,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
     components: { Modal: __WEBPACK_IMPORTED_MODULE_0__Modal_vue___default.a },
     methods: {
+        showModal: function showModal() {
+            $('#post-' + this.post.id).modal();
+        },
         deletePost: function deletePost() {
             var that = this;
             var url = '/posts/' + this.post.id;
@@ -47767,7 +47772,14 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('h2', [_vm._v("\n        " + _vm._s(_vm.post.title) + " (" + _vm._s(_vm.post.date) + ")\n        "), _c('button', {
+  return _c('div', [_c('div', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.showModal()
+      }
+    }
+  }, [_c('h2', [_vm._v("\n            " + _vm._s(_vm.post.title) + " (" + _vm._s(_vm.post.date) + ")\n            "), _c('button', {
     staticClass: "btn btn-danger",
     on: {
       "click": function($event) {
@@ -47780,7 +47792,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.post.body))]), _vm._v(" "), _c('Modal', {
+  })])]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.post.body))])]), _vm._v(" "), _c('Modal', {
     key: _vm.post.id,
     attrs: {
       "post": _vm.post
@@ -57693,6 +57705,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
@@ -57745,13 +57763,12 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('div', {
     staticClass: "modal fade",
     attrs: {
       "tabindex": "-1",
-      "role": "dialog"
+      "role": "dialog",
+      "id": 'post-' + _vm.post.id
     }
   }, [_c('div', {
     staticClass: "modal-dialog",
@@ -57760,7 +57777,54 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "modal-content"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "modal-body"
+  }, [_c('form', {
+    attrs: {
+      "name": "edit-post",
+      "method": "post"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createPost($event)
+      }
+    }
   }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "title"
+    }
+  }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.post.title),
+      expression: "post.title"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "title"
+    },
+    domProps: {
+      "value": (_vm.post.title)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.post.title = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "submit"
+    }
+  })])]), _vm._v(" "), _vm._m(1)])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "modal-header"
   }, [_c('button', {
     staticClass: "close",
@@ -57775,9 +57839,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("×")])]), _vm._v(" "), _c('h4', {
     staticClass: "modal-title"
-  }, [_vm._v("Modal title")])]), _vm._v(" "), _c('div', {
-    staticClass: "modal-body"
-  }, [_c('p', [_vm._v("One fine body…")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Modal title")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
     staticClass: "modal-footer"
   }, [_c('button', {
     staticClass: "btn btn-default",
@@ -57790,7 +57854,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "button"
     }
-  }, [_vm._v("Save changes")])])])])])])
+  }, [_vm._v("Save changes")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

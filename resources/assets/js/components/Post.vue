@@ -1,12 +1,14 @@
 <template>
     <div>
-        <h2>
-            {{ post.title }} ({{ post.date }})
-            <button class="btn btn-danger" v-on:click.prevent="deletePost()">
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </button>
-        </h2>
-        <p>{{ post.body }}</p>
+        <div v-on:click.prevent="showModal()">
+            <h2>
+                {{ post.title }} ({{ post.date }})
+                <button class="btn btn-danger" v-on:click.prevent="deletePost()">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </h2>
+            <p>{{ post.body }}</p>
+        </div>
         <Modal v-bind:post="post" v-bind:key="post.id"></Modal>
     </div>
 </template>
@@ -17,6 +19,9 @@ export default {
     props: ['posts', 'post'],
     components: { Modal },
     methods: {
+        showModal() {
+            $('#post-' + this.post.id).modal();
+        },
         deletePost() {
             let that = this;
             let url = '/posts/' + this.post.id;
