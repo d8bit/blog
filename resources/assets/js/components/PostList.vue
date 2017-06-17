@@ -9,7 +9,7 @@
                         <a data-toggle="tab" v-bind:href="'#language' + language.name">{{language.name}}</a>
                     </li>
                 </ul>
-                <form name="new-post" v-on:submit.prevent="createPost" method="post">
+                <form name="new-post" v-on:submit.prevent="createPost" method="post" enctype="multipart/form-data">
                     <div class="tab-content">
                         <div v-for="(postTranslation, index) in postTranslations" v-bind:id="'language' + postTranslation.language" v-bind:class="[(postTranslation.language == 'es') ? activeTabClass:'', tabClass]">
                             <div class="form-group">
@@ -23,8 +23,28 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="image">Image</label>
+                        <div v-if="!image">
+                            <input class="form-control" type="file" name="image" v-on:change="onFileChange" accept="image/*">
+                        </div>
+                        <div  v-else>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img :src="image" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <button v-on:click="removeImage">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="date">Date</label>
-                        <input class="form-control" type="date" v-model="post.date" name="date">
+                        <input class="form-control" type="date" v-model="date" name="date">
                     </div>
                     <input class="btn btn-primary" type="submit">
                 </form>
@@ -51,6 +71,9 @@ import Post from './Post.vue';
             return {
                 posts: [],
                 post:{},
+                image: '',
+                imageField: '',
+                date: '',
                 languages:[],
                 postTranslations:[],
                 activeTabClass: 'in active',
@@ -60,7 +83,7 @@ import Post from './Post.vue';
         created() {
             this.fetchPosts();
             this.fetchLanguages();
-            this.post.date = moment().format('YYYY-MM-DD');
+            this.date = moment().format('YYYY-MM-DD');
         },
         methods: {
             fetchPosts() {
@@ -77,7 +100,8 @@ import Post from './Post.vue';
                         let postTranslation = {
                             'title': '',
                             'body': '',
-                            'date': that.post.date,
+                            'image': '',
+                            'date': '',
                             'language_id': item.id,
                             'language': item.name
                         };
@@ -87,11 +111,17 @@ import Post from './Post.vue';
                 });
             },
             createPost() {
-                this.postTranslations['date'] = this.post.date;
-                axios.post('/posts', this.postTranslations).then(response => {
+                let that = this;
+                let formData = new FormData();
+                formData.append('image', this.imageField);
+                formData.append('date', this.date);
+                for(let i = 0; i < this.postTranslations.length; i++) {
+                    formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
+                }
+                console.warn(this.postTranslations);
+                axios.post('/posts', formData).then(response => {
                     this.posts.push(response.data);
-                    this.post = {'date': moment().format('YYYY-MM-DD')};
-                    console.log(response.data);
+                    // this.resetFields();
                 });
             },
             deletePost(post) {
@@ -100,10 +130,38 @@ import Post from './Post.vue';
                 axios.delete(url).then(response => {
                     const index = this.posts.indexOf(post);
                     that.posts.splice(index, 1);
-                    console.log(response.data);
                 }).catch(function (error) {
-                    console.log(error);
+                    console.error(error);
                 });
+            },
+            onFileChange(e) {
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length)
+                    return;
+                this.createImage(files[0]);
+                this.imageField = files[0];
+            },
+            createImage(file) {
+                let image = new Image();
+                let reader = new FileReader();
+                let that = this;
+                reader.onload = (e) => {
+                    that.image = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            },
+            removeImage: function (e) {
+                this.image = '';
+            },
+            resetFields() {
+                this.postTranslations.forEach(function(item) {
+                    item.title = '';
+                    item.body = '';
+                    item.image = '';
+                });
+                this.image = '';
+                this.imageField = '';
+                this.date = moment().format('YYYY-MM-DD');
             }
         },
         mounted() {
@@ -111,3 +169,8 @@ import Post from './Post.vue';
         }
     }
 </script>
+<style>
+img {
+    width: 100%;
+}
+</style>
