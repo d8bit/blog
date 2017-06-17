@@ -107,7 +107,11 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        if (Post::destroy($id)) {
+        $post = Post::findOrFail($id);
+        if ('' != $post->image) {
+            $res = \Storage::delete('public/'.$post->image);
+        }
+        if ($post->delete()) {
             return \Response::json('Post deleted');
         }
         return \Response::json("Post not found", 400);
