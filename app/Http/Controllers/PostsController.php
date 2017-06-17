@@ -44,8 +44,9 @@ class PostsController extends Controller
         $post = new Post();
         $post->date = $request->get('date');
         if ($request->hasFile('image')) {
-            $path = $request->image->store('images');
-            $post->image = $path;
+            $request->image->store('public/images');
+            $fileName = $request->image->hashName();
+            $post->image = 'images/'.$fileName;
         }
         $post->save();
         $translations = $request->get('postTranslations');
