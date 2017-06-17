@@ -17387,6 +17387,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -47985,7 +47988,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.showModal()
       }
     }
-  }, [_vm._v(_vm._s(_vm.post.title) + " (" + _vm._s(_vm.post.date) + ")")]), _vm._v(" "), _c('button', {
+  }, [_vm._v(_vm._s(_vm.post.title) + " (" + _vm._s(_vm.post.date) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
+    attrs: {
+      "src": 'storage/app/' + _vm.post.image,
+      "alt": ""
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('button', {
     staticClass: "btn btn-danger",
     on: {
       "click": function($event) {

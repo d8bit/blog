@@ -3,6 +3,9 @@
         <div>
             <h2>
                 <span v-on:click.prevent="showModal()">{{ post.title }} ({{ post.date }})</span>
+                <div v-if="post.image">
+                    <img :src="'storage/app/' + post.image" alt="">
+                </div>
                 <button class="btn btn-danger" v-on:click.prevent="deletePost()">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 </button>
