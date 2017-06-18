@@ -17544,6 +17544,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         createPost: function createPost() {
             var _this3 = this;
 
+            if (!this.fieldsValidated()) {
+                alert('All fields are empty');
+                return false;
+            }
             var that = this;
             var formData = new FormData();
             formData.append('image', this.imageField);
@@ -17551,11 +17555,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             for (var i = 0; i < this.postTranslations.length; i++) {
                 formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
             }
-            console.warn(this.postTranslations);
             axios.post('/posts', formData).then(function (response) {
                 _this3.posts.push(response.data);
-                // this.resetFields();
+                _this3.resetFields();
             });
+        },
+        fieldsValidated: function fieldsValidated() {
+            alert('in');
+            var areEmpty = true;
+            this.postTranslations.forEach(function (item) {
+                console.log(item);
+                if ('' !== item.title) {
+                    areEmpty = false;
+                }
+                if ('' !== item.body) {
+                    areEmpty = false;
+                }
+            });
+            return areEmpty;
         },
         deletePost: function deletePost(post) {
             var _this4 = this;
@@ -20052,7 +20069,7 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(153)();
-exports.push([module.i, "\nimg {\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\nimg {\n    width: 100%;\n}\n.btn-remove {\n    margin: 10px;\n}\n", ""]);
 
 /***/ }),
 /* 153 */
@@ -48158,6 +48175,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "form-group"
   }, [_c('button', {
+    staticClass: "btn-remove",
     on: {
       "click": _vm.removeImage
     }

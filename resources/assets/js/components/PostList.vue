@@ -36,7 +36,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <button v-on:click="removeImage">Remove</button>
+                                        <button class="btn-remove" v-on:click="removeImage">Remove</button>
                                     </div>
                                 </div>
                             </div>
@@ -118,10 +118,9 @@ import Post from './Post.vue';
                 for(let i = 0; i < this.postTranslations.length; i++) {
                     formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
                 }
-                console.warn(this.postTranslations);
                 axios.post('/posts', formData).then(response => {
                     this.posts.push(response.data);
-                    // this.resetFields();
+                    this.resetFields();
                 });
             },
             deletePost(post) {
@@ -172,5 +171,9 @@ import Post from './Post.vue';
 <style>
 img {
     width: 100%;
+}
+
+.btn-remove {
+    margin: 10px;
 }
 </style>
