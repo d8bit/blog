@@ -42,17 +42,23 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $post = new Post();
-        $translations = $request->all();
-        $post->date = $translations[0]['date'];
+        $post->date = $request->get('date');
+        if ($request->hasFile('image')) {
+            $request->image->store('public/images');
+            $fileName = $request->image->hashName();
+            $post->image = 'images/'.$fileName;
+        }
         $post->save();
-        foreach ($request->all() as $request) {
-            if ($request['title'] == '') {
+        $translations = $request->get('postTranslations');
+        foreach ($translations as $translation) {
+            $translation = json_decode($translation);
+            if ($translation->title == '') {
                 continue;
             }
             $postTranslation = new PostTranslation();
-            $postTranslation->title = $request['title'];
-            $postTranslation->body = $request['body'];
-            $postTranslation->language_id = $request['language_id'];
+            $postTranslation->title = $translation->title;
+            $postTranslation->body = $translation->body;
+            $postTranslation->language_id = $translation->language_id;
             $post->translations()->save($postTranslation);
         }
         $post = Post::translated()->find($post->id);
@@ -101,7 +107,11 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        if (Post::destroy($id)) {
+        $post = Post::findOrFail($id);
+        if ('' != $post->image) {
+            $res = \Storage::delete('public/'.$post->image);
+        }
+        if ($post->delete()) {
             return \Response::json('Post deleted');
         }
         return \Response::json("Post not found", 400);
