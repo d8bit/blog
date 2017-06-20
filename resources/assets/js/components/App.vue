@@ -50,23 +50,15 @@
                 </form>
             </div>
         </div>
-
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">Posts</div>
-                <div class="panel-body">
-                    <Post  v-for="post in posts" v-bind:posts="posts" v-bind:post="post" v-bind:key="post.id"></Post>
-                </div>
-            </div>
-        </div>
+        <Posts v-bind:posts="posts"></Posts>
     </div>
 </template>
 
 <script>
-import Post from './Post.vue';
+import Posts from './Posts.vue';
 
     export default {
-        components: { Post },
+        components: { Posts },
         data() {
             return {
                 posts: [],

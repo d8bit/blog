@@ -16439,10 +16439,8 @@ module.exports = function(module) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Post_vue__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Post_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Post_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_PostList_vue__ = __webpack_require__(159);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_PostList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_PostList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_App_vue__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_App_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -16456,7 +16454,6 @@ window.Vue = __webpack_require__(166);
 
 
 
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -16467,7 +16464,7 @@ window.Vue = __webpack_require__(166);
 
 var app = new Vue({
   el: '#app',
-  components: { Post: __WEBPACK_IMPORTED_MODULE_0__components_Post_vue___default.a, PostList: __WEBPACK_IMPORTED_MODULE_1__components_PostList_vue___default.a }
+  components: { App: __WEBPACK_IMPORTED_MODULE_0__components_App_vue___default.a }
 });
 
 /***/ }),
@@ -17417,211 +17414,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 149 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Post_vue__ = __webpack_require__(124);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Post_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Post_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Post: __WEBPACK_IMPORTED_MODULE_0__Post_vue___default.a },
-    data: function data() {
-        return {
-            posts: [],
-            post: {},
-            image: '',
-            imageField: '',
-            date: '',
-            languages: [],
-            postTranslations: [],
-            activeTabClass: 'in active',
-            tabClass: 'tab-pane fade'
-        };
-    },
-    created: function created() {
-        this.fetchPosts();
-        this.fetchLanguages();
-        this.date = moment().format('YYYY-MM-DD');
-    },
-
-    methods: {
-        fetchPosts: function fetchPosts() {
-            var _this = this;
-
-            axios.get('/posts').then(function (response) {
-                _this.posts = response.data;
-                console.log("Fetched posts");
-            });
-        },
-        fetchLanguages: function fetchLanguages() {
-            var _this2 = this;
-
-            var that = this;
-            axios.get('/languages').then(function (response) {
-                _this2.languages = response.data;
-                _this2.languages.forEach(function (item) {
-                    var postTranslation = {
-                        'title': '',
-                        'body': '',
-                        'image': '',
-                        'date': '',
-                        'language_id': item.id,
-                        'language': item.name
-                    };
-                    that.postTranslations.push(postTranslation);
-                });
-                console.log("Fetched languages");
-            });
-        },
-        createPost: function createPost() {
-            var _this3 = this;
-
-            if (!this.fieldsValidated()) {
-                alert('All fields are empty');
-                return false;
-            }
-            var that = this;
-            var formData = new FormData();
-            formData.append('image', this.imageField);
-            formData.append('date', this.date);
-            for (var i = 0; i < this.postTranslations.length; i++) {
-                formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
-            }
-            axios.post('/posts', formData).then(function (response) {
-                _this3.posts.push(response.data);
-                _this3.resetFields();
-            });
-        },
-        fieldsValidated: function fieldsValidated() {
-            alert('in');
-            var areEmpty = true;
-            this.postTranslations.forEach(function (item) {
-                console.log(item);
-                if ('' !== item.title) {
-                    areEmpty = false;
-                }
-                if ('' !== item.body) {
-                    areEmpty = false;
-                }
-            });
-            return areEmpty;
-        },
-        deletePost: function deletePost(post) {
-            var _this4 = this;
-
-            var that = this;
-            var url = '/posts/' + post.id;
-            axios.delete(url).then(function (response) {
-                var index = _this4.posts.indexOf(post);
-                that.posts.splice(index, 1);
-            }).catch(function (error) {
-                console.error(error);
-            });
-        },
-        onFileChange: function onFileChange(e) {
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) return;
-            this.createImage(files[0]);
-            this.imageField = files[0];
-        },
-        createImage: function createImage(file) {
-            var image = new Image();
-            var reader = new FileReader();
-            var that = this;
-            reader.onload = function (e) {
-                that.image = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-
-        removeImage: function removeImage(e) {
-            this.image = '';
-        },
-        resetFields: function resetFields() {
-            this.postTranslations.forEach(function (item) {
-                item.title = '';
-                item.body = '';
-                item.image = '';
-            });
-            this.image = '';
-            this.imageField = '';
-            this.date = moment().format('YYYY-MM-DD');
-        }
-    },
-    mounted: function mounted() {
-        console.log('Component PostList mounted.');
-    }
-});
-
-/***/ }),
+/* 149 */,
 /* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20065,13 +19858,7 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 152 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(153)();
-exports.push([module.i, "\nimg {\n    width: 100%;\n}\n.btn-remove {\n    margin: 10px;\n}\n", ""]);
-
-/***/ }),
+/* 152 */,
 /* 153 */
 /***/ (function(module, exports) {
 
@@ -47956,44 +47743,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 159 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(163)
-
-var Component = __webpack_require__(3)(
-  /* script */
-  __webpack_require__(149),
-  /* template */
-  __webpack_require__(161),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/private/var/www/pattysaurus/resources/assets/js/components/PostList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] PostList.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-729ddd92", Component.options)
-  } else {
-    hotAPI.reload("data-v-729ddd92", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 159 */,
 /* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48046,198 +47796,7 @@ if (false) {
 }
 
 /***/ }),
-/* 161 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "col-md-12"
-  }, [_c('div', {
-    staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_vm._v("Create post")]), _vm._v(" "), _c('ul', {
-    staticClass: "nav nav-tabs"
-  }, _vm._l((_vm.languages), function(language) {
-    return _c('li', {
-      class: {
-        active: (language.name == 'es')
-      }
-    }, [_c('a', {
-      attrs: {
-        "data-toggle": "tab",
-        "href": '#language' + language.name
-      }
-    }, [_vm._v(_vm._s(language.name))])])
-  })), _vm._v(" "), _c('form', {
-    attrs: {
-      "name": "new-post",
-      "method": "post",
-      "enctype": "multipart/form-data"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.createPost($event)
-      }
-    }
-  }, [_c('div', {
-    staticClass: "tab-content"
-  }, _vm._l((_vm.postTranslations), function(postTranslation, index) {
-    return _c('div', {
-      class: [(postTranslation.language == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
-      attrs: {
-        "id": 'language' + postTranslation.language
-      }
-    }, [_c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.title
-      }
-    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.postTranslations[index].title),
-        expression: "postTranslations[index].title"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'title_' + postTranslation.language
-      },
-      domProps: {
-        "value": (_vm.postTranslations[index].title)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.postTranslations[index].title = $event.target.value
-        }
-      }
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.body
-      }
-    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.postTranslations[index].body),
-        expression: "postTranslations[index].body"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'body_' + postTranslation.language
-      },
-      domProps: {
-        "value": (_vm.postTranslations[index].body)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.postTranslations[index].body = $event.target.value
-        }
-      }
-    })])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "image"
-    }
-  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.image) ? _c('div', [_c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "file",
-      "name": "image",
-      "accept": "image/*"
-    },
-    on: {
-      "change": _vm.onFileChange
-    }
-  })]) : _c('div', [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('img', {
-    attrs: {
-      "src": _vm.image
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('button', {
-    staticClass: "btn-remove",
-    on: {
-      "click": _vm.removeImage
-    }
-  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "date"
-    }
-  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.date),
-      expression: "date"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "date",
-      "name": "date"
-    },
-    domProps: {
-      "value": (_vm.date)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.date = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('input', {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "type": "submit"
-    }
-  })])])]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-12"
-  }, [_c('div', {
-    staticClass: "panel panel-default"
-  }, [_c('div', {
-    staticClass: "panel-heading"
-  }, [_vm._v("Posts")]), _vm._v(" "), _c('div', {
-    staticClass: "panel-body"
-  }, _vm._l((_vm.posts), function(post) {
-    return _c('Post', {
-      key: post.id,
-      attrs: {
-        "posts": _vm.posts,
-        "post": post
-      }
-    })
-  }))])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-729ddd92", module.exports)
-  }
-}
-
-/***/ }),
+/* 161 */,
 /* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -48344,32 +47903,7 @@ if (false) {
 }
 
 /***/ }),
-/* 163 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(152);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(164)("49c2a5bd", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-729ddd92\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PostList.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-729ddd92\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./PostList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 163 */,
 /* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -58328,6 +57862,553 @@ module.exports = Vue$3;
 __webpack_require__(127);
 module.exports = __webpack_require__(128);
 
+
+/***/ }),
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Posts_vue__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Posts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Posts_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: { Posts: __WEBPACK_IMPORTED_MODULE_0__Posts_vue___default.a },
+    data: function data() {
+        return {
+            posts: [],
+            post: {},
+            image: '',
+            imageField: '',
+            date: '',
+            languages: [],
+            postTranslations: [],
+            activeTabClass: 'in active',
+            tabClass: 'tab-pane fade'
+        };
+    },
+    created: function created() {
+        this.fetchPosts();
+        this.fetchLanguages();
+        this.date = moment().format('YYYY-MM-DD');
+    },
+
+    methods: {
+        fetchPosts: function fetchPosts() {
+            var _this = this;
+
+            axios.get('/posts').then(function (response) {
+                _this.posts = response.data;
+                console.log("Fetched posts");
+            });
+        },
+        fetchLanguages: function fetchLanguages() {
+            var _this2 = this;
+
+            var that = this;
+            axios.get('/languages').then(function (response) {
+                _this2.languages = response.data;
+                _this2.languages.forEach(function (item) {
+                    var postTranslation = {
+                        'title': '',
+                        'body': '',
+                        'image': '',
+                        'date': '',
+                        'language_id': item.id,
+                        'language': item.name
+                    };
+                    that.postTranslations.push(postTranslation);
+                });
+                console.log("Fetched languages");
+            });
+        },
+        createPost: function createPost() {
+            var _this3 = this;
+
+            var that = this;
+            var formData = new FormData();
+            formData.append('image', this.imageField);
+            formData.append('date', this.date);
+            for (var i = 0; i < this.postTranslations.length; i++) {
+                formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
+            }
+            axios.post('/posts', formData).then(function (response) {
+                _this3.posts.push(response.data);
+                _this3.resetFields();
+            });
+        },
+        deletePost: function deletePost(post) {
+            var _this4 = this;
+
+            var that = this;
+            var url = '/posts/' + post.id;
+            axios.delete(url).then(function (response) {
+                var index = _this4.posts.indexOf(post);
+                that.posts.splice(index, 1);
+            }).catch(function (error) {
+                console.error(error);
+            });
+        },
+        onFileChange: function onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            this.createImage(files[0]);
+            this.imageField = files[0];
+        },
+        createImage: function createImage(file) {
+            var image = new Image();
+            var reader = new FileReader();
+            var that = this;
+            reader.onload = function (e) {
+                that.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+
+        removeImage: function removeImage(e) {
+            this.image = '';
+        },
+        resetFields: function resetFields() {
+            this.postTranslations.forEach(function (item) {
+                item.title = '';
+                item.body = '';
+                item.image = '';
+            });
+            this.image = '';
+            this.imageField = '';
+            this.date = moment().format('YYYY-MM-DD');
+        }
+    },
+    mounted: function mounted() {
+        console.log('Component PostList mounted.');
+    }
+});
+
+/***/ }),
+/* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(153)();
+exports.push([module.i, "\nimg {\n    width: 100%;\n}\n.btn-remove {\n    margin: 10px;\n}\n", ""]);
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(179)
+
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(175),
+  /* template */
+  __webpack_require__(178),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/private/var/www/pattysaurus/resources/assets/js/components/App.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] App.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4ea87f58", Component.options)
+  } else {
+    hotAPI.reload("data-v-4ea87f58", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Create post")]), _vm._v(" "), _c('ul', {
+    staticClass: "nav nav-tabs"
+  }, _vm._l((_vm.languages), function(language) {
+    return _c('li', {
+      class: {
+        active: (language.name == 'es')
+      }
+    }, [_c('a', {
+      attrs: {
+        "data-toggle": "tab",
+        "href": '#language' + language.name
+      }
+    }, [_vm._v(_vm._s(language.name))])])
+  })), _vm._v(" "), _c('form', {
+    attrs: {
+      "name": "new-post",
+      "method": "post",
+      "enctype": "multipart/form-data"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createPost($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "tab-content"
+  }, _vm._l((_vm.postTranslations), function(postTranslation, index) {
+    return _c('div', {
+      class: [(postTranslation.language == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
+      attrs: {
+        "id": 'language' + postTranslation.language
+      }
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.title
+      }
+    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.postTranslations[index].title),
+        expression: "postTranslations[index].title"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'title_' + postTranslation.language
+      },
+      domProps: {
+        "value": (_vm.postTranslations[index].title)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.postTranslations[index].title = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.body
+      }
+    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.postTranslations[index].body),
+        expression: "postTranslations[index].body"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'body_' + postTranslation.language
+      },
+      domProps: {
+        "value": (_vm.postTranslations[index].body)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.postTranslations[index].body = $event.target.value
+        }
+      }
+    })])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "image"
+    }
+  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.image) ? _c('div', [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "file",
+      "name": "image",
+      "accept": "image/*"
+    },
+    on: {
+      "change": _vm.onFileChange
+    }
+  })]) : _c('div', [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.image
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('button', {
+    staticClass: "btn-remove",
+    on: {
+      "click": _vm.removeImage
+    }
+  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "date"
+    }
+  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.date),
+      expression: "date"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "date",
+      "name": "date"
+    },
+    domProps: {
+      "value": (_vm.date)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.date = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "submit"
+    }
+  })])])]), _vm._v(" "), _c('Posts', {
+    attrs: {
+      "posts": _vm.posts
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4ea87f58", module.exports)
+  }
+}
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(176);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(164)("e021b61a", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4ea87f58\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-4ea87f58\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 180 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Post_vue__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Post_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Post_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['posts', 'post'],
+    components: { Post: __WEBPACK_IMPORTED_MODULE_0__Post_vue___default.a },
+    methods: {
+        showModal: function showModal() {
+            $('#post-' + this.post.id).modal();
+        },
+        deletePost: function deletePost() {
+            var that = this;
+            var url = '/posts/' + this.post.id;
+            axios.delete(url).then(function (response) {
+                var index = that.posts.indexOf(that.post);
+                that.posts.splice(index, 1);
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
+    mounted: function mounted() {
+        console.log('Component Post mounted.');
+    }
+});
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(3)(
+  /* script */
+  __webpack_require__(180),
+  /* template */
+  __webpack_require__(182),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/private/var/www/pattysaurus/resources/assets/js/components/Posts.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Posts.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b6f9e76c", Component.options)
+  } else {
+    hotAPI.reload("data-v-b6f9e76c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('div', {
+    staticClass: "panel panel-default"
+  }, [_c('div', {
+    staticClass: "panel-heading"
+  }, [_vm._v("Posts")]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, _vm._l((_vm.posts), function(post) {
+    return _c('Post', {
+      key: post.id,
+      attrs: {
+        "posts": _vm.posts,
+        "post": post
+      }
+    })
+  }))])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b6f9e76c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
