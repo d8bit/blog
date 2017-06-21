@@ -106,16 +106,6 @@ export default {
             }
             this.$store.dispatch('addPost', formData);
         },
-        deletePost(post) {
-            let that = this;
-            let url = '/posts/' + post.id;
-            axios.delete(url).then(response => {
-                const index = this.posts.indexOf(post);
-                that.posts.splice(index, 1);
-            }).catch(function (error) {
-                console.error(error);
-            });
-        },
         onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length)

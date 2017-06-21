@@ -19,22 +19,14 @@
 <script>
 import Modal from './Modal.vue';
 export default {
-    props: ['posts', 'post'],
+    props: ['post'],
     components: { Modal },
     methods: {
         showModal() {
             $('#post-' + this.post.id).modal();
         },
         deletePost() {
-            let that = this;
-            let url = '/posts/' + this.post.id;
-            axios.delete(url).then(response => {
-                const index = that.posts.indexOf(that.post);
-                that.posts.splice(index, 1);
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
+            this.$store.dispatch('deletePost', this.post);
         }
     },
     mounted() {

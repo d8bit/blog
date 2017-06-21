@@ -27100,18 +27100,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
             this.$store.dispatch('addPost', formData);
         },
-        deletePost: function deletePost(post) {
-            var _this2 = this;
-
-            var that = this;
-            var url = '/posts/' + post.id;
-            axios.delete(url).then(function (response) {
-                var index = _this2.posts.indexOf(post);
-                that.posts.splice(index, 1);
-            }).catch(function (error) {
-                console.error(error);
-            });
-        },
         onFileChange: function onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
@@ -27223,22 +27211,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['posts', 'post'],
+    props: ['post'],
     components: { Modal: __WEBPACK_IMPORTED_MODULE_0__Modal_vue___default.a },
     methods: {
         showModal: function showModal() {
             $('#post-' + this.post.id).modal();
         },
         deletePost: function deletePost() {
-            var that = this;
-            var url = '/posts/' + this.post.id;
-            axios.delete(url).then(function (response) {
-                var index = that.posts.indexOf(that.post);
-                that.posts.splice(index, 1);
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
+            this.$store.dispatch('deletePost', this.post);
         }
     },
     mounted: function mounted() {
@@ -27273,17 +27253,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         showModal: function showModal() {
             $('#post-' + this.post.id).modal();
-        },
-        deletePost: function deletePost() {
-            var that = this;
-            var url = '/posts/' + this.post.id;
-            axios.delete(url).then(function (response) {
-                var index = that.posts.indexOf(that.post);
-                that.posts.splice(index, 1);
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
         }
     },
     mounted: function mounted() {
@@ -27387,6 +27356,11 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         },
         addPost: function addPost(state, post) {
             state.posts.push(post);
+        },
+        deletePost: function deletePost(state, post) {
+            var index = state.posts.indexOf(post);
+            state.posts.splice(index, 1);
+            console.warn('removed from state');
         }
     },
     actions: {
@@ -27407,6 +27381,15 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
                 context.commit('addPost', response.data);
                 console.log('Post added');
                 console.log('Response', response);
+            });
+        },
+        deletePost: function deletePost(context, post) {
+            var url = '/posts/' + post.id;
+            axios.delete(url).then(function (response) {
+                context.commit('deletePost', post);
+                console.log('Post deleted. Response:', response);
+            }).catch(function (error) {
+                console.error('Error deleting: ', error);
             });
         }
     }

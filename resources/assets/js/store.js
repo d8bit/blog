@@ -25,6 +25,11 @@ export const store = new Vuex.Store({
         },
         addPost (state, post) {
             state.posts.push(post);
+        },
+        deletePost(state, post) {
+            const index = state.posts.indexOf(post);
+            state.posts.splice(index, 1);
+            console.warn('removed from state');
         }
     },
     actions: {
@@ -45,6 +50,15 @@ export const store = new Vuex.Store({
                 context.commit('addPost', response.data);
                 console.log('Post added');
                 console.log('Response', response);
+            });
+        },
+        deletePost(context, post) {
+            let url = '/posts/' + post.id;
+            axios.delete(url).then(response => {
+                context.commit('deletePost', post);
+                console.log('Post deleted. Response:', response);
+            }).catch(function (error) {
+                console.error('Error deleting: ', error);
             });
         }
     }
