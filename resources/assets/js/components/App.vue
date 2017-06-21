@@ -104,10 +104,7 @@ export default {
             for (let i = 0; i < this.postTranslations.length; i++) {
                 formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
             }
-            axios.post('/posts', formData).then(response => {
-                this.posts.push(response.data);
-                this.resetFields();
-            });
+            this.$store.dispatch('addPost', formData);
         },
         deletePost(post) {
             let that = this;
