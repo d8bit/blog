@@ -105,6 +105,7 @@ export default {
                 formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
             }
             this.$store.dispatch('addPost', formData);
+            this.resetFields();
         },
         onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;

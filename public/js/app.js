@@ -27099,6 +27099,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
             }
             this.$store.dispatch('addPost', formData);
+            this.resetFields();
         },
         onFileChange: function onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
