@@ -3,7 +3,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">Posts</div>
             <div class="panel-body">
-                <Post  v-for="post in posts" v-bind:posts="posts" v-bind:post="post" v-bind:key="post.id"></Post>
+                <Post  v-for="post in $store.getters.allPosts" v-bind:posts="posts" v-bind:post="post" v-bind:key="post.id"></Post>
             </div>
         </div>
     </div>
@@ -17,17 +17,6 @@ export default {
     methods: {
         showModal() {
             $('#post-' + this.post.id).modal();
-        },
-        deletePost() {
-            let that = this;
-            let url = '/posts/' + this.post.id;
-            axios.delete(url).then(response => {
-                const index = that.posts.indexOf(that.post);
-                that.posts.splice(index, 1);
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
         }
     },
     mounted() {

@@ -56,109 +56,91 @@
 
 <script>
 import Posts from './Posts.vue';
-
-    export default {
-        components: { Posts },
-        data() {
-            return {
-                posts: [],
-                post:{},
-                image: '',
-                imageField: '',
-                date: '',
-                languages:[],
-                postTranslations:[],
-                activeTabClass: 'in active',
-                tabClass: 'tab-pane fade'
-            }
-        },
-        created() {
-            this.fetchPosts();
-            this.fetchLanguages();
-            this.date = moment().format('YYYY-MM-DD');
-        },
-        methods: {
-            fetchPosts() {
-                axios.get('/posts').then( response => {
-                    this.posts = response.data;
-                    console.log("Fetched posts")
-                });
-            },
-            fetchLanguages() {
-                let that = this;
-                axios.get('/languages').then( response => {
-                    this.languages = response.data;
-                    this.languages.forEach(function(item) {
-                        let postTranslation = {
-                            'title': '',
-                            'body': '',
-                            'image': '',
-                            'date': '',
-                            'language_id': item.id,
-                            'language': item.name
-                        };
-                        that.postTranslations.push(postTranslation);
-                    });
-                    console.log("Fetched languages")
-                });
-            },
-            createPost() {
-                let that = this;
-                let formData = new FormData();
-                formData.append('image', this.imageField);
-                formData.append('date', this.date);
-                for(let i = 0; i < this.postTranslations.length; i++) {
-                    formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
-                }
-                axios.post('/posts', formData).then(response => {
-                    this.posts.push(response.data);
-                    this.resetFields();
-                });
-            },
-            deletePost(post) {
-                let that = this;
-                let url = '/posts/' + post.id;
-                axios.delete(url).then(response => {
-                    const index = this.posts.indexOf(post);
-                    that.posts.splice(index, 1);
-                }).catch(function (error) {
-                    console.error(error);
-                });
-            },
-            onFileChange(e) {
-                var files = e.target.files || e.dataTransfer.files;
-                if (!files.length)
-                    return;
-                this.createImage(files[0]);
-                this.imageField = files[0];
-            },
-            createImage(file) {
-                let image = new Image();
-                let reader = new FileReader();
-                let that = this;
-                reader.onload = (e) => {
-                    that.image = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            },
-            removeImage: function (e) {
-                this.image = '';
-            },
-            resetFields() {
-                this.postTranslations.forEach(function(item) {
-                    item.title = '';
-                    item.body = '';
-                    item.image = '';
-                });
-                this.image = '';
-                this.imageField = '';
-                this.date = moment().format('YYYY-MM-DD');
-            }
-        },
-        mounted() {
-            console.log('Component PostList mounted.')
+export default {
+    components: { Posts },
+    data() {
+        return {
+            posts: [],
+            post: {},
+            image: '',
+            imageField: '',
+            date: '',
+            languages: [],
+            postTranslations: [],
+            activeTabClass: 'in active',
+            tabClass: 'tab-pane fade'
         }
+    },
+    created() {
+        this.fetchTranslations();
+        this.date = moment().format('YYYY-MM-DD');
+        this.$store.dispatch('initLanguages');
+        this.$store.dispatch('initPosts');
+    },
+    methods: {
+        fetchTranslations() {
+            let that = this;
+            axios.get('/languages').then(response => {
+                this.languages = response.data;
+                this.languages.forEach(function (item) {
+                    let postTranslation = {
+                        'title': '',
+                        'body': '',
+                        'image': '',
+                        'date': '',
+                        'language_id': item.id,
+                        'language': item.name
+                    };
+                    that.postTranslations.push(postTranslation);
+                });
+                console.log("Fetched languages")
+            });
+        },
+        createPost() {
+            let that = this;
+            let formData = new FormData();
+            formData.append('image', this.imageField);
+            formData.append('date', this.date);
+            for (let i = 0; i < this.postTranslations.length; i++) {
+                formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
+            }
+            this.$store.dispatch('addPost', formData);
+            this.resetFields();
+        },
+        onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+            this.createImage(files[0]);
+            this.imageField = files[0];
+        },
+        createImage(file) {
+            let image = new Image();
+            let reader = new FileReader();
+            let that = this;
+            reader.onload = (e) => {
+                that.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        removeImage: function (e) {
+            this.image = '';
+        },
+        resetFields() {
+            this.postTranslations.forEach(function (item) {
+                item.title = '';
+                item.body = '';
+                item.image = '';
+            });
+            this.image = '';
+            this.imageField = '';
+            this.date = moment().format('YYYY-MM-DD');
+        }
+    },
+    mounted() {
+        console.log('Component PostList mounted.')
     }
+}
 </script>
 <style>
 img {
