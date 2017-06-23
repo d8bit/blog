@@ -83,6 +83,8 @@ export default {
             axios.get('/languages').then(response => {
                 this.languages = response.data;
                 this.languages.forEach(function (item) {
+                    // Create postTranslation objects, one for
+                    // each language
                     let postTranslation = {
                         'title': '',
                         'body': '',
