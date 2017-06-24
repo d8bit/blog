@@ -15,19 +15,7 @@ import FormPost from './FormPost.vue';
 import Posts from './Posts.vue';
 export default {
     components: { FormPost, Posts },
-    data() {
-        return {
-            posts: [],
-            post: {},
-            image: '',
-            imageField: '',
-            date: '',
-            languages: [],
-            postTranslations: [],
-            activeTabClass: 'in active',
-            tabClass: 'tab-pane fade'
-        }
-    },
+    props: ['posts'],
     created() {
         this.date = moment().format('YYYY-MM-DD');
         this.$store.dispatch('initLanguages');

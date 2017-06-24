@@ -27008,19 +27008,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { FormPost: __WEBPACK_IMPORTED_MODULE_0__FormPost_vue___default.a, Posts: __WEBPACK_IMPORTED_MODULE_1__Posts_vue___default.a },
-    data: function data() {
-        return {
-            posts: [],
-            post: {},
-            image: '',
-            imageField: '',
-            date: '',
-            languages: [],
-            postTranslations: [],
-            activeTabClass: 'in active',
-            tabClass: 'tab-pane fade'
-        };
-    },
+    props: ['posts'],
     created: function created() {
         this.date = moment().format('YYYY-MM-DD');
         this.$store.dispatch('initLanguages');
@@ -59058,15 +59046,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {},
     data: function data() {
         return {
-            posts: [],
-            post: {},
             image: '',
             imageField: '',
             date: '',
-            languages: [],
             postTranslations: [],
             activeTabClass: 'in active',
             tabClass: 'tab-pane fade'

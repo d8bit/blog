@@ -49,15 +49,11 @@
 
 <script>
 export default {
-    components: {},
     data() {
         return {
-            posts: [],
-            post: {},
             image: '',
             imageField: '',
             date: '',
-            languages: [],
             postTranslations: [],
             activeTabClass: 'in active',
             tabClass: 'tab-pane fade'
