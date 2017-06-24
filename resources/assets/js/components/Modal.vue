@@ -13,12 +13,15 @@
                                 <label for="title">Title</label>
                                 <input class="form-control" type="text" v-model="post.title" name="title">
                             </div>
-                            <input class="btn btn-primary" type="submit">
+                            <div class="form-group">
+                                <label for="body">Body</label>
+                                <textarea class="form-control" type="text" v-model="post.body" v-bind:name="'body'"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

@@ -27193,6 +27193,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
@@ -58104,12 +58107,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.post.title = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('input', {
-    staticClass: "btn btn-primary",
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
     attrs: {
-      "type": "submit"
+      "for": "body"
     }
-  })])]), _vm._v(" "), _vm._m(1)])])])])
+  }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.post.body),
+      expression: "post.body"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": 'body'
+    },
+    domProps: {
+      "value": (_vm.post.body)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.post.body = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _vm._m(1)])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "modal-header"
@@ -58139,7 +58164,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Close")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-primary",
     attrs: {
-      "type": "button"
+      "type": "submit"
     }
   }, [_vm._v("Save changes")])])
 }]}
