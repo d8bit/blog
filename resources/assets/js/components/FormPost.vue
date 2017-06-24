@@ -126,11 +126,6 @@ export default {
     mounted() {
         this.initForm();
         console.log('Component PostList mounted.')
-    },
-    created() {
-        this.date = moment().format('YYYY-MM-DD');
-        this.$store.dispatch('initLanguages');
-        this.$store.dispatch('initPosts');
     }
 }
 </script>

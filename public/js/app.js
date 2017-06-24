@@ -59126,11 +59126,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         this.initForm();
         console.log('Component PostList mounted.');
-    },
-    created: function created() {
-        this.date = moment().format('YYYY-MM-DD');
-        this.$store.dispatch('initLanguages');
-        this.$store.dispatch('initPosts');
     }
 });
 
