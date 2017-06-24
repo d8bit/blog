@@ -59059,19 +59059,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         initForm: function initForm() {
+            var _this = this;
+
             // Create postTranslation objects, one for
             // each language
-            this.$store.getters.allLanguages.forEach(function (item) {
-                var postTranslation = {
-                    'title': '',
-                    'body': '',
-                    'image': '',
-                    'date': '',
-                    'language_id': item.id,
-                    'language': item.name
-                };
-                that.postTranslations.push(postTranslation);
+            var that = this;
+            axios.get('/languages').then(function (response) {
+                _this.languages = response.data;
+                _this.languages.forEach(function (item) {
+                    var postTranslation = {
+                        'title': '',
+                        'body': '',
+                        'image': '',
+                        'date': '',
+                        'language_id': item.id,
+                        'language': item.name
+                    };
+                    that.postTranslations.push(postTranslation);
+                });
+                console.log("Fetched languages");
             });
+
             console.log("Fetched languages");
         },
         createPost: function createPost() {

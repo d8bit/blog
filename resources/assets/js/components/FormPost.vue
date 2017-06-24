@@ -63,17 +63,23 @@ export default {
         initForm() {
             // Create postTranslation objects, one for
             // each language
-            this.$store.getters.allLanguages.forEach(function (item) {
-                let postTranslation = {
-                    'title': '',
-                    'body': '',
-                    'image': '',
-                    'date': '',
-                    'language_id': item.id,
-                    'language': item.name
-                };
-                that.postTranslations.push(postTranslation);
+            let that = this;
+            axios.get('/languages').then(response => {
+                this.languages = response.data;
+                this.languages.forEach(function (item) {
+                    let postTranslation = {
+                        'title': '',
+                        'body': '',
+                        'image': '',
+                        'date': '',
+                        'language_id': item.id,
+                        'language': item.name
+                    };
+                    that.postTranslations.push(postTranslation);
+                });
+                console.log("Fetched languages")
             });
+
             console.log("Fetched languages")
         },
         createPost() {
