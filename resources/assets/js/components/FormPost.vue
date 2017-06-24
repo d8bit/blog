@@ -64,6 +64,7 @@ export default {
             // Create postTranslation objects, one for
             // each language
             let that = this;
+            that.date = moment().format('YYYY-MM-DD');
             axios.get('/languages').then(response => {
                 this.languages = response.data;
                 this.languages.forEach(function (item) {

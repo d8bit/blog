@@ -10,7 +10,7 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import App from './components/App.vue';
-import { store } from './store';
+import { store } from './store/index';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

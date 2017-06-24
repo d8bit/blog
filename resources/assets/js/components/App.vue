@@ -17,7 +17,6 @@ export default {
     components: { FormPost, Posts },
     props: ['posts'],
     created() {
-        this.date = moment().format('YYYY-MM-DD');
         this.$store.dispatch('initLanguages');
         this.$store.dispatch('initPosts');
     },

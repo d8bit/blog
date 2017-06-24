@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 172);
+/******/ 	return __webpack_require__(__webpack_require__.s = 175);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1899,7 +1899,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(158)("./" + name);
+            __webpack_require__(159)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4998,7 +4998,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(159)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(160)))
 
 /***/ }),
 /* 4 */
@@ -26103,9 +26103,9 @@ module.exports = function(module) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_App_vue__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_App_vue__ = __webpack_require__(161);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_App_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store__ = __webpack_require__(152);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__store_index__ = __webpack_require__(153);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -26113,7 +26113,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(151);
+__webpack_require__(152);
 
 window.Vue = __webpack_require__(124);
 
@@ -26130,7 +26130,7 @@ window.Vue = __webpack_require__(124);
 
 var app = new Vue({
   el: '#app',
-  store: __WEBPACK_IMPORTED_MODULE_1__store__["a" /* store */],
+  store: __WEBPACK_IMPORTED_MODULE_1__store_index__["a" /* store */],
   components: { App: __WEBPACK_IMPORTED_MODULE_0__components_App_vue___default.a }
 });
 
@@ -26987,9 +26987,9 @@ module.exports = function spread(callback) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormPost_vue__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormPost_vue__ = __webpack_require__(162);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormPost_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormPost_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Posts_vue__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Posts_vue__ = __webpack_require__(165);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Posts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Posts_vue__);
 //
 //
@@ -27010,7 +27010,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: { FormPost: __WEBPACK_IMPORTED_MODULE_0__FormPost_vue___default.a, Posts: __WEBPACK_IMPORTED_MODULE_1__Posts_vue___default.a },
     props: ['posts'],
     created: function created() {
-        this.date = moment().format('YYYY-MM-DD');
         this.$store.dispatch('initLanguages');
         this.$store.dispatch('initPosts');
     },
@@ -27021,6 +27020,147 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 148 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            image: '',
+            imageField: '',
+            date: '',
+            postTranslations: [],
+            activeTabClass: 'in active',
+            tabClass: 'tab-pane fade'
+        };
+    },
+
+    methods: {
+        initForm: function initForm() {
+            var _this = this;
+
+            // Create postTranslation objects, one for
+            // each language
+            var that = this;
+            that.date = moment().format('YYYY-MM-DD');
+            axios.get('/languages').then(function (response) {
+                _this.languages = response.data;
+                _this.languages.forEach(function (item) {
+                    var postTranslation = {
+                        'title': '',
+                        'body': '',
+                        'image': '',
+                        'date': '',
+                        'language_id': item.id,
+                        'language': item.name
+                    };
+                    that.postTranslations.push(postTranslation);
+                });
+                console.log("Fetched languages");
+            });
+
+            console.log("Fetched languages");
+        },
+        createPost: function createPost() {
+            var that = this;
+            var formData = new FormData();
+            formData.append('image', this.imageField);
+            formData.append('date', this.date);
+            for (var i = 0; i < this.postTranslations.length; i++) {
+                formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
+            }
+            this.$store.dispatch('addPost', formData);
+            this.resetFields();
+        },
+        onFileChange: function onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            this.createImage(files[0]);
+            this.imageField = files[0];
+        },
+        createImage: function createImage(file) {
+            var image = new Image();
+            var reader = new FileReader();
+            var that = this;
+            reader.onload = function (e) {
+                that.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+
+        removeImage: function removeImage(e) {
+            this.image = '';
+        },
+        resetFields: function resetFields() {
+            this.postTranslations.forEach(function (item) {
+                item.title = '';
+                item.body = '';
+                item.image = '';
+            });
+            this.image = '';
+            this.imageField = '';
+            this.date = moment().format('YYYY-MM-DD');
+        }
+    },
+    mounted: function mounted() {
+        this.initForm();
+        console.log('Component PostList mounted.');
+    }
+});
+
+/***/ }),
+/* 149 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -27067,12 +27207,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 149 */
+/* 150 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Modal_vue__ = __webpack_require__(161);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Modal_vue__ = __webpack_require__(163);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Modal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Modal_vue__);
 //
 //
@@ -27102,15 +27242,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $('#post-' + this.post.id).modal();
         },
         deletePost: function deletePost() {
-            var that = this;
-            var url = '/posts/' + this.post.id;
-            axios.delete(url).then(function (response) {
-                var index = that.posts.indexOf(that.post);
-                that.posts.splice(index, 1);
-                console.log(response.data);
-            }).catch(function (error) {
-                console.log(error);
-            });
+            this.$store.dispatch('deletePost', this.post);
+            // let that = this;
+            // let url = '/posts/' + this.post.id;
+            // axios.delete(url).then(response => {
+            //     const index = that.posts.indexOf(that.post);
+            //     that.posts.splice(index, 1);
+            //     console.log(response.data);
+            // }).catch(function (error) {
+            //     console.log(error);
+            // });
         }
     },
     mounted: function mounted() {
@@ -27119,12 +27260,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 150 */
+/* 151 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Post_vue__ = __webpack_require__(162);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Post_vue__ = __webpack_require__(164);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Post_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Post_vue__);
 //
 //
@@ -27153,11 +27294,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 151 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(157);
+window._ = __webpack_require__(158);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -27166,9 +27307,9 @@ window._ = __webpack_require__(157);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(156);
+  window.$ = window.jQuery = __webpack_require__(157);
 
-  __webpack_require__(153);
+  __webpack_require__(154);
 } catch (e) {}
 
 /**
@@ -27213,14 +27354,21 @@ if (token) {
 window.moment = __webpack_require__(0);
 
 /***/ }),
-/* 152 */
+/* 153 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(124);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(171);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(174);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__getters__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__actions__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__mutations__ = __webpack_require__(185);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return store; });
+
+
+
+
 
 
 
@@ -27231,64 +27379,13 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         posts: [],
         languages: []
     },
-    getters: {
-        allPosts: function allPosts(state) {
-            return state.posts;
-        },
-        allLanguages: function allLanguages(state) {
-            return state.languages;
-        }
-    },
-    mutations: {
-        initLanguages: function initLanguages(state, languages) {
-            state.languages = languages;
-        },
-        initPosts: function initPosts(state, posts) {
-            state.posts = posts;
-        },
-        addPost: function addPost(state, post) {
-            state.posts.push(post);
-        },
-        deletePost: function deletePost(state, post) {
-            var index = state.posts.indexOf(post);
-            state.posts.splice(index, 1);
-            console.warn('removed from state');
-        }
-    },
-    actions: {
-        initLanguages: function initLanguages(context) {
-            axios.get('/languages').then(function (response) {
-                context.commit('initLanguages', response.data);
-                console.log('Fetched languages');
-            });
-        },
-        initPosts: function initPosts(context) {
-            axios.get('/posts').then(function (response) {
-                context.commit('initPosts', response.data);
-                console.log('Fetched posts');
-            });
-        },
-        addPost: function addPost(context, post) {
-            axios.post('/posts', post).then(function (response) {
-                context.commit('addPost', response.data);
-                console.log('Post added');
-                console.log('Response', response);
-            });
-        },
-        deletePost: function deletePost(context, post) {
-            var url = '/posts/' + post.id;
-            axios.delete(url).then(function (response) {
-                context.commit('deletePost', post);
-                console.log('Post deleted. Response:', response);
-            }).catch(function (error) {
-                console.error('Error deleting: ', error);
-            });
-        }
-    }
+    getters: __WEBPACK_IMPORTED_MODULE_2__getters__,
+    mutations: __WEBPACK_IMPORTED_MODULE_4__mutations__,
+    actions: __WEBPACK_IMPORTED_MODULE_3__actions__
 });
 
 /***/ }),
-/* 153 */
+/* 154 */
 /***/ (function(module, exports) {
 
 /*!
@@ -29671,14 +29768,14 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 154 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(155)();
+exports = module.exports = __webpack_require__(156)();
 exports.push([module.i, "\nimg {\n    width: 100%;\n}\n.btn-remove {\n    margin: 10px;\n}\n", ""]);
 
 /***/ }),
-/* 155 */
+/* 156 */
 /***/ (function(module, exports) {
 
 /*
@@ -29734,7 +29831,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 156 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -39994,7 +40091,7 @@ return jQuery;
 
 
 /***/ }),
-/* 157 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -57086,7 +57183,7 @@ return jQuery;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(125), __webpack_require__(126)(module)))
 
 /***/ }),
-/* 158 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -57335,10 +57432,10 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 158;
+webpackContext.id = 159;
 
 /***/ }),
-/* 159 */
+/* 160 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -57528,18 +57625,18 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 160 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(168)
+__webpack_require__(171)
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(147),
   /* template */
-  __webpack_require__(164),
+  __webpack_require__(166),
   /* scopeId */
   null,
   /* cssModules */
@@ -57566,14 +57663,48 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(148),
   /* template */
-  __webpack_require__(166),
+  __webpack_require__(167),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/private/var/www/pattysaurus/resources/assets/js/components/FormPost.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FormPost.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5482385d", Component.options)
+  } else {
+    hotAPI.reload("data-v-5482385d", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 163 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(149),
+  /* template */
+  __webpack_require__(169),
   /* scopeId */
   null,
   /* cssModules */
@@ -57600,14 +57731,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 162 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
-  __webpack_require__(149),
+  __webpack_require__(150),
   /* template */
-  __webpack_require__(165),
+  __webpack_require__(168),
   /* scopeId */
   null,
   /* cssModules */
@@ -57634,14 +57765,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 163 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(2)(
   /* script */
-  __webpack_require__(150),
+  __webpack_require__(151),
   /* template */
-  __webpack_require__(167),
+  __webpack_require__(170),
   /* scopeId */
   null,
   /* cssModules */
@@ -57668,7 +57799,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 164 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -57693,7 +57824,177 @@ if (false) {
 }
 
 /***/ }),
-/* 165 */
+/* 167 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('ul', {
+    staticClass: "nav nav-tabs"
+  }, _vm._l((_vm.$store.getters.allLanguages), function(language) {
+    return _c('li', {
+      class: {
+        active: (language.name == 'es')
+      }
+    }, [_c('a', {
+      attrs: {
+        "data-toggle": "tab",
+        "href": '#language' + language.name
+      }
+    }, [_vm._v(_vm._s(language.name))])])
+  })), _vm._v(" "), _c('form', {
+    attrs: {
+      "name": "new-post",
+      "method": "post",
+      "enctype": "multipart/form-data"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createPost($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "tab-content"
+  }, _vm._l((_vm.postTranslations), function(postTranslation, index) {
+    return _c('div', {
+      class: [(postTranslation.language == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
+      attrs: {
+        "id": 'language' + postTranslation.language
+      }
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.title
+      }
+    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.postTranslations[index].title),
+        expression: "postTranslations[index].title"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'title_' + postTranslation.language
+      },
+      domProps: {
+        "value": (_vm.postTranslations[index].title)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.postTranslations[index].title = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.body
+      }
+    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.postTranslations[index].body),
+        expression: "postTranslations[index].body"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'body_' + postTranslation.language
+      },
+      domProps: {
+        "value": (_vm.postTranslations[index].body)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.postTranslations[index].body = $event.target.value
+        }
+      }
+    })])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "image"
+    }
+  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.image) ? _c('div', [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "file",
+      "name": "image",
+      "accept": "image/*"
+    },
+    on: {
+      "change": _vm.onFileChange
+    }
+  })]) : _c('div', [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.image
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('button', {
+    staticClass: "btn-remove",
+    on: {
+      "click": _vm.removeImage
+    }
+  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "date"
+    }
+  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.date),
+      expression: "date"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "date",
+      "name": "date"
+    },
+    domProps: {
+      "value": (_vm.date)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.date = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "submit"
+    }
+  })])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5482385d", module.exports)
+  }
+}
+
+/***/ }),
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -57745,7 +58046,7 @@ if (false) {
 }
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -57851,7 +58152,7 @@ if (false) {
 }
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -57882,17 +58183,17 @@ if (false) {
 }
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(154);
+var content = __webpack_require__(155);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(169)("e021b61a", content, false);
+var update = __webpack_require__(172)("e021b61a", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -57908,7 +58209,7 @@ if(false) {
 }
 
 /***/ }),
-/* 169 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -57927,7 +58228,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(170)
+var listToStyles = __webpack_require__(173)
 
 /*
 type StyleObject = {
@@ -58129,7 +58430,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 170 */
+/* 173 */
 /***/ (function(module, exports) {
 
 /**
@@ -58162,7 +58463,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 171 */
+/* 174 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58975,7 +59276,7 @@ var index_esm = {
 
 
 /***/ }),
-/* 172 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(127);
@@ -58983,355 +59284,96 @@ module.exports = __webpack_require__(128);
 
 
 /***/ }),
-/* 173 */,
-/* 174 */,
-/* 175 */,
 /* 176 */,
 /* 177 */,
 /* 178 */,
 /* 179 */,
-/* 180 */
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "allPosts", function() { return allPosts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "allLanguages", function() { return allLanguages; });
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            image: '',
-            imageField: '',
-            date: '',
-            postTranslations: [],
-            activeTabClass: 'in active',
-            tabClass: 'tab-pane fade'
-        };
-    },
+var allPosts = function allPosts(state) {
+    return state.posts;
+};
 
-    methods: {
-        initForm: function initForm() {
-            var _this = this;
-
-            // Create postTranslation objects, one for
-            // each language
-            var that = this;
-            axios.get('/languages').then(function (response) {
-                _this.languages = response.data;
-                _this.languages.forEach(function (item) {
-                    var postTranslation = {
-                        'title': '',
-                        'body': '',
-                        'image': '',
-                        'date': '',
-                        'language_id': item.id,
-                        'language': item.name
-                    };
-                    that.postTranslations.push(postTranslation);
-                });
-                console.log("Fetched languages");
-            });
-
-            console.log("Fetched languages");
-        },
-        createPost: function createPost() {
-            var that = this;
-            var formData = new FormData();
-            formData.append('image', this.imageField);
-            formData.append('date', this.date);
-            for (var i = 0; i < this.postTranslations.length; i++) {
-                formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
-            }
-            this.$store.dispatch('addPost', formData);
-            this.resetFields();
-        },
-        onFileChange: function onFileChange(e) {
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) return;
-            this.createImage(files[0]);
-            this.imageField = files[0];
-        },
-        createImage: function createImage(file) {
-            var image = new Image();
-            var reader = new FileReader();
-            var that = this;
-            reader.onload = function (e) {
-                that.image = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-
-        removeImage: function removeImage(e) {
-            this.image = '';
-        },
-        resetFields: function resetFields() {
-            this.postTranslations.forEach(function (item) {
-                item.title = '';
-                item.body = '';
-                item.image = '';
-            });
-            this.image = '';
-            this.imageField = '';
-            this.date = moment().format('YYYY-MM-DD');
-        }
-    },
-    mounted: function mounted() {
-        this.initForm();
-        console.log('Component PostList mounted.');
-    }
-});
+var allLanguages = function allLanguages(state) {
+    return state.languages;
+};
 
 /***/ }),
-/* 181 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 184 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var Component = __webpack_require__(2)(
-  /* script */
-  __webpack_require__(180),
-  /* template */
-  __webpack_require__(182),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "/private/var/www/pattysaurus/resources/assets/js/components/FormPost.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] FormPost.vue: functional components are not supported with templates, they should use render functions.")}
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initLanguages", function() { return initLanguages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initPosts", function() { return initPosts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addPost", function() { return addPost; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePost", function() { return deletePost; });
 
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5482385d", Component.options)
-  } else {
-    hotAPI.reload("data-v-5482385d", Component.options)
-  }
-})()}
+var initLanguages = function initLanguages(context) {
+    axios.get('/languages').then(function (response) {
+        context.commit('initLanguages', response.data);
+        console.log('Fetched languages');
+    });
+};
 
-module.exports = Component.exports
+var initPosts = function initPosts(context) {
+    axios.get('/posts').then(function (response) {
+        context.commit('initPosts', response.data);
+        console.log('Fetched posts');
+    });
+};
 
+var addPost = function addPost(context, post) {
+    axios.post('/posts', post).then(function (response) {
+        context.commit('addPost', response.data);
+        console.log('Post added. Response', response);
+        console.log('Post added');
+    });
+};
+
+var deletePost = function deletePost(context, post) {
+    var url = '/posts/' + post.id;
+    axios.delete(url).then(function (response) {
+        context.commit('deletePost', post);
+        console.log('Post deleted. Response:', response);
+    }).catch(function (error) {
+        console.error('Error deleting: ', error);
+    });
+};
 
 /***/ }),
-/* 182 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 185 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('ul', {
-    staticClass: "nav nav-tabs"
-  }, _vm._l((_vm.$store.getters.allLanguages), function(language) {
-    return _c('li', {
-      class: {
-        active: (language.name == 'es')
-      }
-    }, [_c('a', {
-      attrs: {
-        "data-toggle": "tab",
-        "href": '#language' + language.name
-      }
-    }, [_vm._v(_vm._s(language.name))])])
-  })), _vm._v(" "), _c('form', {
-    attrs: {
-      "name": "new-post",
-      "method": "post",
-      "enctype": "multipart/form-data"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.createPost($event)
-      }
-    }
-  }, [_c('div', {
-    staticClass: "tab-content"
-  }, _vm._l((_vm.postTranslations), function(postTranslation, index) {
-    return _c('div', {
-      class: [(postTranslation.language == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
-      attrs: {
-        "id": 'language' + postTranslation.language
-      }
-    }, [_c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.title
-      }
-    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.postTranslations[index].title),
-        expression: "postTranslations[index].title"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'title_' + postTranslation.language
-      },
-      domProps: {
-        "value": (_vm.postTranslations[index].title)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.postTranslations[index].title = $event.target.value
-        }
-      }
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.body
-      }
-    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.postTranslations[index].body),
-        expression: "postTranslations[index].body"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'body_' + postTranslation.language
-      },
-      domProps: {
-        "value": (_vm.postTranslations[index].body)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.postTranslations[index].body = $event.target.value
-        }
-      }
-    })])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "image"
-    }
-  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.image) ? _c('div', [_c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "file",
-      "name": "image",
-      "accept": "image/*"
-    },
-    on: {
-      "change": _vm.onFileChange
-    }
-  })]) : _c('div', [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('img', {
-    attrs: {
-      "src": _vm.image
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('button', {
-    staticClass: "btn-remove",
-    on: {
-      "click": _vm.removeImage
-    }
-  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "date"
-    }
-  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.date),
-      expression: "date"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "date",
-      "name": "date"
-    },
-    domProps: {
-      "value": (_vm.date)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.date = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('input', {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "type": "submit"
-    }
-  })])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5482385d", module.exports)
-  }
-}
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initLanguages", function() { return initLanguages; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initPosts", function() { return initPosts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addPost", function() { return addPost; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePost", function() { return deletePost; });
+
+var initLanguages = function initLanguages(state, languages) {
+    state.languages = languages;
+};
+var initPosts = function initPosts(state, posts) {
+    state.posts = posts;
+};
+var addPost = function addPost(state, post) {
+    state.posts.push(post);
+};
+var deletePost = function deletePost(state, post) {
+    var index = state.posts.indexOf(post);
+    state.posts.splice(index, 1);
+};
 
 /***/ })
 /******/ ]);
