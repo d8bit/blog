@@ -27196,12 +27196,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
+    data: function data() {
+        return {
+            activeTabClass: 'in active',
+            tabClass: 'tab-pane fade'
+        };
+    },
+
     methods: {
         editPost: function editPost() {
             console.log('edit post');
+        },
+
+        removeImage: function removeImage(e) {
+            this.post.image = '';
         }
     },
     mounted: function mounted() {
@@ -27246,15 +27287,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         deletePost: function deletePost() {
             this.$store.dispatch('deletePost', this.post);
-            // let that = this;
-            // let url = '/posts/' + this.post.id;
-            // axios.delete(url).then(response => {
-            //     const index = that.posts.indexOf(that.post);
-            //     that.posts.splice(index, 1);
-            //     console.log(response.data);
-            // }).catch(function (error) {
-            //     console.log(error);
-            // });
         }
     },
     mounted: function mounted() {
@@ -58008,7 +58040,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.showModal()
       }
     }
-  }, [_vm._v(_vm._s(_vm.post.title) + " (" + _vm._s(_vm.post.date) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
+  }, [_vm._v(_vm._s(_vm.post.translations[0].title) + " (" + _vm._s(_vm.post.date) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
     attrs: {
       "src": 'storage/' + _vm.post.image,
       "alt": ""
@@ -58033,7 +58065,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.showModal()
       }
     }
-  }, [_vm._v(_vm._s(_vm.post.body))])]), _vm._v(" "), _c('Modal', {
+  }, [_vm._v(_vm._s(_vm.post.translations[0].body))])]), _vm._v(" "), _c('Modal', {
     key: _vm.post.id,
     attrs: {
       "post": _vm.post
@@ -58069,72 +58101,163 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-content"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "modal-body"
-  }, [_c('form', {
+  }, [_c('ul', {
+    staticClass: "nav nav-tabs"
+  }, _vm._l((_vm.$store.getters.allLanguages), function(language) {
+    return _c('li', {
+      class: {
+        active: (language.name == 'es')
+      }
+    }, [_c('a', {
+      attrs: {
+        "data-toggle": "tab",
+        "href": '#language_' + language.name
+      }
+    }, [_vm._v(_vm._s(language.name))])])
+  })), _vm._v(" "), _c('form', {
     attrs: {
-      "name": "edit-post",
-      "method": "post"
+      "name": "new-post",
+      "method": "post",
+      "enctype": "multipart/form-data"
     },
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.editPost($event)
+        _vm.createPost($event)
       }
     }
   }, [_c('div', {
+    staticClass: "tab-content"
+  }, _vm._l((_vm.post.translations), function(postTranslation, index) {
+    return _c('div', {
+      class: [(postTranslation.language.name == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
+      attrs: {
+        "id": 'language_' + postTranslation.language.name
+      }
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.title
+      }
+    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.post.translations[index].title),
+        expression: "post.translations[index].title"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'title_' + postTranslation.language.name
+      },
+      domProps: {
+        "value": (_vm.post.translations[index].title)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.post.translations[index].title = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.body
+      }
+    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.post.translations[index].body),
+        expression: "post.translations[index].body"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'body_' + postTranslation.language.name
+      },
+      domProps: {
+        "value": (_vm.post.translations[index].body)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.post.translations[index].body = $event.target.value
+        }
+      }
+    })])])
+  })), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     attrs: {
-      "for": "title"
+      "for": "image"
     }
-  }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
+  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.post.image) ? _c('div', [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "file",
+      "name": "image",
+      "accept": "image/*"
+    },
+    on: {
+      "change": _vm.onFileChange
+    }
+  })]) : _c('div', [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('img', {
+    attrs: {
+      "src": 'storage/' + _vm.post.image,
+      "alt": ""
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('button', {
+    staticClass: "btn-remove",
+    on: {
+      "click": _vm.removeImage
+    }
+  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "date"
+    }
+  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.post.title),
-      expression: "post.title"
+      value: (_vm.post.date),
+      expression: "post.date"
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "text",
-      "name": "title"
+      "type": "date",
+      "name": "date"
     },
     domProps: {
-      "value": (_vm.post.title)
+      "value": (_vm.post.date)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.post.title = $event.target.value
+        _vm.post.date = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
+  })]), _vm._v(" "), _c('input', {
+    staticClass: "btn btn-primary",
     attrs: {
-      "for": "body"
+      "type": "submit"
     }
-  }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.post.body),
-      expression: "post.body"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "name": 'body'
-    },
-    domProps: {
-      "value": (_vm.post.body)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.post.body = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _vm._m(1)])])])])])])
+  })])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "modal-header"
@@ -58152,21 +58275,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("×")])]), _vm._v(" "), _c('h4', {
     staticClass: "modal-title"
   }, [_vm._v("Modal title")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "modal-footer"
-  }, [_c('button', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "type": "button",
-      "data-dismiss": "modal"
-    }
-  }, [_vm._v("Close")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Save changes")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

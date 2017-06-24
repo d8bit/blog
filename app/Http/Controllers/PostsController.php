@@ -17,7 +17,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::translated()
+        $posts = Post::with('translations.language')
             ->orderBy('date', 'desc')
             ->get();
         return \Response::json($posts);
