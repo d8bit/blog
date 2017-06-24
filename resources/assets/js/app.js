@@ -9,8 +9,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import Post from './components/Post.vue';
-import PostList from './components/PostList.vue';
+import App from './components/App.vue';
+import { store } from './store/index';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -22,5 +22,6 @@ import PostList from './components/PostList.vue';
 
 const app = new Vue({
     el: '#app',
-    components: { Post, PostList }
+    store,
+    components: { App }
 });

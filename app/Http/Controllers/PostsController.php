@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Post;
+use App\Models\Language;
+use App\Models\PostTranslation;
 
 class PostsController extends Controller
 {
@@ -15,7 +17,9 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::translated()->get();
+        $posts = Post::translated()
+            ->orderBy('date', 'desc')
+            ->get();
         return \Response::json($posts);
     }
 
@@ -37,8 +41,27 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        $inputs = $request->all();
-        $post = Post::create($inputs);
+        $post = new Post();
+        $post->date = $request->get('date');
+        if ($request->hasFile('image')) {
+            $request->image->store('public/images');
+            $fileName = $request->image->hashName();
+            $post->image = 'images/'.$fileName;
+        }
+        $post->save();
+        $translations = $request->get('postTranslations');
+        foreach ($translations as $translation) {
+            $translation = json_decode($translation);
+            if ($translation->title == '') {
+                continue;
+            }
+            $postTranslation = new PostTranslation();
+            $postTranslation->title = $translation->title;
+            $postTranslation->body = $translation->body;
+            $postTranslation->language_id = $translation->language_id;
+            $post->translations()->save($postTranslation);
+        }
+        $post = Post::translated()->find($post->id);
         return \Response::json($post);
     }
 
@@ -84,7 +107,11 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        if (Post::destroy($id)) {
+        $post = Post::findOrFail($id);
+        if ('' != $post->image) {
+            $res = \Storage::delete('public/'.$post->image);
+        }
+        if ($post->delete()) {
             return \Response::json('Post deleted');
         }
         return \Response::json("Post not found", 400);

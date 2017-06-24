@@ -8,7 +8,7 @@
                     <div class="panel-heading">Dashboard</div>
                     <div id="app"></div>
                     <div class="panel-body">
-                        <Post-List></Post-List>
+                        <App></App>
                     </div>
                 </div>
             </div>
