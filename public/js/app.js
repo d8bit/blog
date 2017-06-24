@@ -26987,8 +26987,10 @@ module.exports = function spread(callback) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Posts_vue__ = __webpack_require__(163);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Posts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Posts_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormPost_vue__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FormPost_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FormPost_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Posts_vue__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Posts_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Posts_vue__);
 //
 //
 //
@@ -27001,138 +27003,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { Posts: __WEBPACK_IMPORTED_MODULE_0__Posts_vue___default.a },
-    data: function data() {
-        return {
-            posts: [],
-            post: {},
-            image: '',
-            imageField: '',
-            date: '',
-            languages: [],
-            postTranslations: [],
-            activeTabClass: 'in active',
-            tabClass: 'tab-pane fade'
-        };
-    },
+    components: { FormPost: __WEBPACK_IMPORTED_MODULE_0__FormPost_vue___default.a, Posts: __WEBPACK_IMPORTED_MODULE_1__Posts_vue___default.a },
+    props: ['posts'],
     created: function created() {
-        this.fetchTranslations();
         this.date = moment().format('YYYY-MM-DD');
         this.$store.dispatch('initLanguages');
         this.$store.dispatch('initPosts');
     },
-
-    methods: {
-        fetchTranslations: function fetchTranslations() {
-            var _this = this;
-
-            var that = this;
-            axios.get('/languages').then(function (response) {
-                _this.languages = response.data;
-                _this.languages.forEach(function (item) {
-                    var postTranslation = {
-                        'title': '',
-                        'body': '',
-                        'image': '',
-                        'date': '',
-                        'language_id': item.id,
-                        'language': item.name
-                    };
-                    that.postTranslations.push(postTranslation);
-                });
-                console.log("Fetched languages");
-            });
-        },
-        createPost: function createPost() {
-            var that = this;
-            var formData = new FormData();
-            formData.append('image', this.imageField);
-            formData.append('date', this.date);
-            for (var i = 0; i < this.postTranslations.length; i++) {
-                formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
-            }
-            this.$store.dispatch('addPost', formData);
-            this.resetFields();
-        },
-        onFileChange: function onFileChange(e) {
-            var files = e.target.files || e.dataTransfer.files;
-            if (!files.length) return;
-            this.createImage(files[0]);
-            this.imageField = files[0];
-        },
-        createImage: function createImage(file) {
-            var image = new Image();
-            var reader = new FileReader();
-            var that = this;
-            reader.onload = function (e) {
-                that.image = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        },
-
-        removeImage: function removeImage(e) {
-            this.image = '';
-        },
-        resetFields: function resetFields() {
-            this.postTranslations.forEach(function (item) {
-                item.title = '';
-                item.body = '';
-                item.image = '';
-            });
-            this.image = '';
-            this.imageField = '';
-            this.date = moment().format('YYYY-MM-DD');
-        }
-    },
     mounted: function mounted() {
-        console.log('Component PostList mounted.');
+        console.log('Component App mounted.');
     }
 });
 
@@ -27212,14 +27095,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['post'],
+    props: ['posts', 'post'],
     components: { Modal: __WEBPACK_IMPORTED_MODULE_0__Modal_vue___default.a },
     methods: {
         showModal: function showModal() {
             $('#post-' + this.post.id).modal();
         },
         deletePost: function deletePost() {
-            this.$store.dispatch('deletePost', this.post);
+            var that = this;
+            var url = '/posts/' + this.post.id;
+            axios.delete(url).then(function (response) {
+                var index = that.posts.indexOf(that.post);
+                that.posts.splice(index, 1);
+                console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     },
     mounted: function mounted() {
@@ -57787,162 +57678,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel panel-default"
   }, [_c('div', {
     staticClass: "panel-heading"
-  }, [_vm._v("Create post")]), _vm._v(" "), _c('ul', {
-    staticClass: "nav nav-tabs"
-  }, _vm._l((_vm.languages), function(language) {
-    return _c('li', {
-      class: {
-        active: (language.name == 'es')
-      }
-    }, [_c('a', {
-      attrs: {
-        "data-toggle": "tab",
-        "href": '#language' + language.name
-      }
-    }, [_vm._v(_vm._s(language.name))])])
-  })), _vm._v(" "), _c('form', {
-    attrs: {
-      "name": "new-post",
-      "method": "post",
-      "enctype": "multipart/form-data"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.createPost($event)
-      }
-    }
-  }, [_c('div', {
-    staticClass: "tab-content"
-  }, _vm._l((_vm.postTranslations), function(postTranslation, index) {
-    return _c('div', {
-      class: [(postTranslation.language == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
-      attrs: {
-        "id": 'language' + postTranslation.language
-      }
-    }, [_c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.title
-      }
-    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.postTranslations[index].title),
-        expression: "postTranslations[index].title"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'title_' + postTranslation.language
-      },
-      domProps: {
-        "value": (_vm.postTranslations[index].title)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.postTranslations[index].title = $event.target.value
-        }
-      }
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.body
-      }
-    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.postTranslations[index].body),
-        expression: "postTranslations[index].body"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'body_' + postTranslation.language
-      },
-      domProps: {
-        "value": (_vm.postTranslations[index].body)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.postTranslations[index].body = $event.target.value
-        }
-      }
-    })])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "image"
-    }
-  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.image) ? _c('div', [_c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "file",
-      "name": "image",
-      "accept": "image/*"
-    },
-    on: {
-      "change": _vm.onFileChange
-    }
-  })]) : _c('div', [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('img', {
-    attrs: {
-      "src": _vm.image
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('button', {
-    staticClass: "btn-remove",
-    on: {
-      "click": _vm.removeImage
-    }
-  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "date"
-    }
-  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.date),
-      expression: "date"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "date",
-      "name": "date"
-    },
-    domProps: {
-      "value": (_vm.date)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.date = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('input', {
-    staticClass: "btn btn-primary",
-    attrs: {
-      "type": "submit"
-    }
-  })])])]), _vm._v(" "), _c('Posts', {
+  }, [_vm._v("Create post")]), _vm._v(" "), _c('FormPost')], 1)]), _vm._v(" "), _c('Posts', {
     attrs: {
       "posts": _vm.posts
     }
@@ -59245,6 +58981,362 @@ var index_esm = {
 __webpack_require__(127);
 module.exports = __webpack_require__(128);
 
+
+/***/ }),
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            image: '',
+            imageField: '',
+            date: '',
+            postTranslations: [],
+            activeTabClass: 'in active',
+            tabClass: 'tab-pane fade'
+        };
+    },
+
+    methods: {
+        initForm: function initForm() {
+            var _this = this;
+
+            // Create postTranslation objects, one for
+            // each language
+            var that = this;
+            axios.get('/languages').then(function (response) {
+                _this.languages = response.data;
+                _this.languages.forEach(function (item) {
+                    var postTranslation = {
+                        'title': '',
+                        'body': '',
+                        'image': '',
+                        'date': '',
+                        'language_id': item.id,
+                        'language': item.name
+                    };
+                    that.postTranslations.push(postTranslation);
+                });
+                console.log("Fetched languages");
+            });
+
+            console.log("Fetched languages");
+        },
+        createPost: function createPost() {
+            var that = this;
+            var formData = new FormData();
+            formData.append('image', this.imageField);
+            formData.append('date', this.date);
+            for (var i = 0; i < this.postTranslations.length; i++) {
+                formData.append('postTranslations[' + i + ']', JSON.stringify(this.postTranslations[i]));
+            }
+            this.$store.dispatch('addPost', formData);
+            this.resetFields();
+        },
+        onFileChange: function onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length) return;
+            this.createImage(files[0]);
+            this.imageField = files[0];
+        },
+        createImage: function createImage(file) {
+            var image = new Image();
+            var reader = new FileReader();
+            var that = this;
+            reader.onload = function (e) {
+                that.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+
+        removeImage: function removeImage(e) {
+            this.image = '';
+        },
+        resetFields: function resetFields() {
+            this.postTranslations.forEach(function (item) {
+                item.title = '';
+                item.body = '';
+                item.image = '';
+            });
+            this.image = '';
+            this.imageField = '';
+            this.date = moment().format('YYYY-MM-DD');
+        }
+    },
+    mounted: function mounted() {
+        this.initForm();
+        console.log('Component PostList mounted.');
+    },
+    created: function created() {
+        this.date = moment().format('YYYY-MM-DD');
+        this.$store.dispatch('initLanguages');
+        this.$store.dispatch('initPosts');
+    }
+});
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(180),
+  /* template */
+  __webpack_require__(182),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "/private/var/www/pattysaurus/resources/assets/js/components/FormPost.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] FormPost.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5482385d", Component.options)
+  } else {
+    hotAPI.reload("data-v-5482385d", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', [_c('ul', {
+    staticClass: "nav nav-tabs"
+  }, _vm._l((_vm.$store.getters.allLanguages), function(language) {
+    return _c('li', {
+      class: {
+        active: (language.name == 'es')
+      }
+    }, [_c('a', {
+      attrs: {
+        "data-toggle": "tab",
+        "href": '#language' + language.name
+      }
+    }, [_vm._v(_vm._s(language.name))])])
+  })), _vm._v(" "), _c('form', {
+    attrs: {
+      "name": "new-post",
+      "method": "post",
+      "enctype": "multipart/form-data"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.createPost($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "tab-content"
+  }, _vm._l((_vm.postTranslations), function(postTranslation, index) {
+    return _c('div', {
+      class: [(postTranslation.language == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
+      attrs: {
+        "id": 'language' + postTranslation.language
+      }
+    }, [_c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.title
+      }
+    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.postTranslations[index].title),
+        expression: "postTranslations[index].title"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'title_' + postTranslation.language
+      },
+      domProps: {
+        "value": (_vm.postTranslations[index].title)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.postTranslations[index].title = $event.target.value
+        }
+      }
+    })]), _vm._v(" "), _c('div', {
+      staticClass: "form-group"
+    }, [_c('label', {
+      attrs: {
+        "for": postTranslation.body
+      }
+    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: (_vm.postTranslations[index].body),
+        expression: "postTranslations[index].body"
+      }],
+      staticClass: "form-control",
+      attrs: {
+        "type": "text",
+        "name": 'body_' + postTranslation.language
+      },
+      domProps: {
+        "value": (_vm.postTranslations[index].body)
+      },
+      on: {
+        "input": function($event) {
+          if ($event.target.composing) { return; }
+          _vm.postTranslations[index].body = $event.target.value
+        }
+      }
+    })])])
+  })), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "image"
+    }
+  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.image) ? _c('div', [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "file",
+      "name": "image",
+      "accept": "image/*"
+    },
+    on: {
+      "change": _vm.onFileChange
+    }
+  })]) : _c('div', [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('img', {
+    attrs: {
+      "src": _vm.image
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('button', {
+    staticClass: "btn-remove",
+    on: {
+      "click": _vm.removeImage
+    }
+  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "date"
+    }
+  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.date),
+      expression: "date"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "date",
+      "name": "date"
+    },
+    domProps: {
+      "value": (_vm.date)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.date = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('input', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "submit"
+    }
+  })])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5482385d", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
