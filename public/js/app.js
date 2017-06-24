@@ -27276,55 +27276,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
     components: { Modal: __WEBPACK_IMPORTED_MODULE_0__Modal_vue___default.a },
-    data: function data() {
-        return {
-            activeTabClass: 'in active',
-            tabClass: 'tab-pane fade'
-        };
-    },
-
     methods: {
-        removeImage: function removeImage(e) {
-            this.post.image = '';
-        },
         showModal: function showModal() {
             $('#post-' + this.post.id).modal();
         },
@@ -27333,7 +27290,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
-        console.log(this.post);
         console.log('Component Post mounted.');
     }
 });
@@ -58060,8 +58016,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('input', {
     staticClass: "btn btn-primary",
     attrs: {
-      "type": "submit",
-      "value": "Creat"
+      "type": "submit"
     }
   })])])
 },staticRenderFns: []}
@@ -58078,164 +58033,44 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', [_c('ul', {
-    staticClass: "nav nav-tabs"
-  }, _vm._l((_vm.$store.getters.allLanguages), function(language) {
-    return _c('li', {
-      class: {
-        active: (language.name == 'es')
-      }
-    }, [_c('a', {
-      attrs: {
-        "data-toggle": "tab",
-        "href": '#language_' + language.name
-      }
-    }, [_vm._v(_vm._s(language.name))])])
-  })), _vm._v(" "), _c('form', {
-    attrs: {
-      "name": "new-post",
-      "method": "post",
-      "enctype": "multipart/form-data"
-    },
+  return _c('div', [_c('div', [_c('h2', [_c('span', {
     on: {
-      "submit": function($event) {
+      "click": function($event) {
         $event.preventDefault();
-        _vm.createPost($event)
+        _vm.showModal()
       }
     }
-  }, [_c('div', {
-    staticClass: "tab-content"
-  }, _vm._l((_vm.post.translations), function(postTranslation, index) {
-    return _c('div', {
-      class: [(postTranslation.language.name == 'es') ? _vm.activeTabClass : '', _vm.tabClass],
-      attrs: {
-        "id": 'language_' + postTranslation.language.name
-      }
-    }, [_c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.title
-      }
-    }, [_vm._v("Title")]), _vm._v(" "), _c('input', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.post.translations[index].title),
-        expression: "post.translations[index].title"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'title_' + postTranslation.language.name
-      },
-      domProps: {
-        "value": (_vm.post.translations[index].title)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.post.translations[index].title = $event.target.value
-        }
-      }
-    })]), _vm._v(" "), _c('div', {
-      staticClass: "form-group"
-    }, [_c('label', {
-      attrs: {
-        "for": postTranslation.body
-      }
-    }, [_vm._v("Body")]), _vm._v(" "), _c('textarea', {
-      directives: [{
-        name: "model",
-        rawName: "v-model",
-        value: (_vm.post.translations[index].body),
-        expression: "post.translations[index].body"
-      }],
-      staticClass: "form-control",
-      attrs: {
-        "type": "text",
-        "name": 'body_' + postTranslation.language.name
-      },
-      domProps: {
-        "value": (_vm.post.translations[index].body)
-      },
-      on: {
-        "input": function($event) {
-          if ($event.target.composing) { return; }
-          _vm.post.translations[index].body = $event.target.value
-        }
-      }
-    })])])
-  })), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "image"
-    }
-  }, [_vm._v("Image")]), _vm._v(" "), (!_vm.post.image) ? _c('div', [_c('input', {
-    staticClass: "form-control",
-    attrs: {
-      "type": "file",
-      "name": "image",
-      "accept": "image/*"
-    },
-    on: {
-      "change": _vm.onFileChange
-    }
-  })]) : _c('div', [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('img', {
+  }, [_vm._v(_vm._s(_vm.post.translations[0].title) + " (" + _vm._s(_vm.post.date) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
     attrs: {
       "src": 'storage/' + _vm.post.image,
       "alt": ""
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-6"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('button', {
-    staticClass: "btn-remove",
+  })]) : _vm._e(), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-danger",
     on: {
-      "click": _vm.removeImage
-    }
-  }, [_vm._v("Remove")])])])])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "date"
-    }
-  }, [_vm._v("Date")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.post.date),
-      expression: "post.date"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "date",
-      "name": "date"
-    },
-    domProps: {
-      "value": (_vm.post.date)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.post.date = $event.target.value
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.deletePost()
       }
     }
-  })]), _vm._v(" "), _c('input', {
-    staticClass: "btn btn-primary",
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-trash",
     attrs: {
-      "type": "submit",
-      "value": "Save"
+      "aria-hidden": "true"
     }
-  })])])])
+  })])]), _vm._v(" "), _c('p', {
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.showModal()
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.post.translations[0].body))])]), _vm._v(" "), _c('Modal', {
+    key: _vm.post.id,
+    attrs: {
+      "post": _vm.post
+    }
+  })], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

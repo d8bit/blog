@@ -42,7 +42,7 @@
                 <label for="date">Date</label>
                 <input class="form-control" type="date" v-model="date" name="date">
             </div>
-            <input class="btn btn-primary" type="submit" value="Creat">
+            <input class="btn btn-primary" type="submit">
         </form>
     </div>
 </template>
