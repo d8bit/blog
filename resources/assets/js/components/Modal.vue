@@ -8,7 +8,7 @@
                         <h4 class="modal-title">Modal title</h4>
                     </div>
                     <div class="modal-body">
-                        <form name="edit-post" v-on:submit.prevent="createPost" method="post">
+                        <form name="edit-post" v-on:submit.prevent="editPost" method="post">
                             <div class="form-group">
                                 <label for="title">Title</label>
                                 <input class="form-control" type="text" v-model="post.title" name="title">

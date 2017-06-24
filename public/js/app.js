@@ -58074,7 +58074,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createPost($event)
+        _vm.editPost($event)
       }
     }
   }, [_c('div', {
