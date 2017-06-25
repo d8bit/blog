@@ -27240,6 +27240,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         editPost: function editPost() {
             this.$store.dispatch('editPost', this.post);
+            $('#post-' + this.post.id).modal('hide');
         },
         onFileChange: function onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;

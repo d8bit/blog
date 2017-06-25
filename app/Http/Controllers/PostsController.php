@@ -95,6 +95,11 @@ class PostsController extends Controller
     {
         $post = Post::with('translations')->findOrFail($id);
         $post->date = $request->get('date');
+        if ($request->hasFile('image')) {
+            $request->image->store('public/images');
+            $fileName = $request->image->hashName();
+            $post->image = 'images/'.$fileName;
+        }
         $post->save();
         $postTranslations = $request->get('translations');
         foreach ($postTranslations as $postTranslation) {
