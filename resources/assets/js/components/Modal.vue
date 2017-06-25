@@ -16,6 +16,7 @@
                         <form name="new-post" v-on:submit.prevent="editPost" method="post" enctype="multipart/form-data">
                             <div class="tab-content">
                                 <div v-for="(postTranslation, index) in post.translations" v-bind:id="'language_' + postTranslation.language.name" v-bind:class="[(postTranslation.language.name == 'es') ? activeTabClass:'', tabClass]">
+                                    <input type="hidden" name="id" :value="post.translations[index].id">
                                     <div class="form-group">
                                         <label v-bind:for="postTranslation.title">Title</label>
                                         <input class="form-control" type="text" v-model="post.translations[index].title" v-bind:name="'title_' + postTranslation.language.name">
@@ -70,7 +71,7 @@ export default {
     },
     methods: {
         editPost() {
-            console.log('edit post');
+            this.$store.dispatch('editPost', this.post);
         },
         onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
@@ -78,6 +79,15 @@ export default {
                 return;
             this.createImage(files[0]);
             this.imageField = files[0];
+        },
+        createImage(file) {
+            let image = new Image();
+            let reader = new FileReader();
+            let that = this;
+            reader.onload = (e) => {
+                that.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
         },
         removeImage: function (e) {
             this.post.image = '';

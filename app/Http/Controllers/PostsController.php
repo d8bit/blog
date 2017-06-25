@@ -81,7 +81,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        return 'nice';
+        //
     }
 
     /**
@@ -93,7 +93,17 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::with('translations')->findOrFail($id);
+        $post->date = $request->get('date');
+        $post->save();
+        $postTranslations = $request->get('translations');
+        foreach ($postTranslations as $postTranslation) {
+            $translation = PostTranslation::findOrFail($postTranslation['id']);
+            $translation->title = $postTranslation['title'];
+            $translation->body = $postTranslation['body'];
+            $translation->save();
+        }
+        return \Response::json($post);
     }
 
     /**

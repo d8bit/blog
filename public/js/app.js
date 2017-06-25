@@ -27226,6 +27226,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
@@ -27238,13 +27239,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         editPost: function editPost() {
-            console.log('edit post');
+            this.$store.dispatch('editPost', this.post);
         },
         onFileChange: function onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
             if (!files.length) return;
             this.createImage(files[0]);
             this.imageField = files[0];
+        },
+        createImage: function createImage(file) {
+            var image = new Image();
+            var reader = new FileReader();
+            var that = this;
+            reader.onload = function (e) {
+                that.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
         },
 
         removeImage: function removeImage(e) {
@@ -27433,7 +27443,7 @@ var addPost = function addPost(context, post) {
 };
 
 var editPost = function editPost(conext, post) {
-    axios.put('/posts', post).then(function (response) {
+    axios.put('/posts/' + post.id, post).then(function (response) {
         console.log('Post edited. Response', response);
     });
 };
@@ -58236,7 +58246,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "id": 'language_' + postTranslation.language.name
       }
-    }, [_c('div', {
+    }, [_c('input', {
+      attrs: {
+        "type": "hidden",
+        "name": "id"
+      },
+      domProps: {
+        "value": _vm.post.translations[index].id
+      }
+    }), _vm._v(" "), _c('div', {
       staticClass: "form-group"
     }, [_c('label', {
       attrs: {

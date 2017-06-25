@@ -21,7 +21,7 @@ export const addPost = (context, post) => {
 };
 
 export const editPost = (conext, post) => {
-    axios.put('/posts', post).then(response => {
+    axios.put('/posts/' + post.id, post).then(response => {
         console.log('Post edited. Response', response);
     });
 };
