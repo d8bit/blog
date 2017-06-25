@@ -27287,6 +27287,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
     components: { Modal: __WEBPACK_IMPORTED_MODULE_0__Modal_vue___default.a },
+    computed: {
+        formattedDate: function formattedDate() {
+            return moment(this.post.date).format('DD/MM/YYYY');
+        }
+    },
     methods: {
         showModal: function showModal() {
             $('#post-' + this.post.id).modal();
@@ -27403,6 +27408,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initLanguages", function() { return initLanguages; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initPosts", function() { return initPosts; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addPost", function() { return addPost; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editPost", function() { return editPost; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePost", function() { return deletePost; });
 
 var initLanguages = function initLanguages(context) {
@@ -27423,7 +27429,12 @@ var addPost = function addPost(context, post) {
     axios.post('/posts', post).then(function (response) {
         context.commit('addPost', response.data);
         console.log('Post added. Response', response);
-        console.log('Post added');
+    });
+};
+
+var editPost = function editPost(conext, post) {
+    axios.put('/posts', post).then(function (response) {
+        console.log('Post edited. Response', response);
     });
 };
 
@@ -58131,7 +58142,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.showModal()
       }
     }
-  }, [_vm._v(_vm._s(_vm.post.translations[0].title) + " (" + _vm._s(_vm.post.date) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
+  }, [_vm._v(_vm._s(_vm.post.translations[0].title) + " (" + _vm._s(_vm.formattedDate) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
     attrs: {
       "src": 'storage/' + _vm.post.image,
       "alt": ""
@@ -58214,7 +58225,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "submit": function($event) {
         $event.preventDefault();
-        _vm.createPost($event)
+        _vm.editPost($event)
       }
     }
   }, [_c('div', {

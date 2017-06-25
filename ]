@@ -48,7 +48,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="date">Date</label>
-                                <input class="form-control" type="date" v-model="post.date" name="date">
+                                <input class="form-control" type="date" v-bind:value="{{ getDate() }}" name="date">
                             </div>
                             <input class="btn btn-primary" type="submit">
                         </form>
@@ -68,7 +68,16 @@ export default {
             tabClass: 'tab-pane fade'
         }
     },
+    // computed: {
+    //     getDate() {
+    //         return '2017-01-01'
+    //     }
+    // },
     methods: {
+        getDate() {
+            // return moment().format(post.date, 'YYYY-MM-DD');
+            return '2017-01-01'
+        },
         editPost() {
             console.log('edit post');
         },

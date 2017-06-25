@@ -2,7 +2,7 @@
     <div>
         <div>
             <h2>
-                <span v-on:click.prevent="showModal()">{{ post.translations[0].title }} ({{ post.date }})</span>
+                <span v-on:click.prevent="showModal()">{{ post.translations[0].title }} ({{ formattedDate }})</span>
                 <div v-if="post.image">
                     <img :src="'storage/' + post.image" alt="">
                 </div>
@@ -21,6 +21,11 @@ import Modal from './Modal.vue';
 export default {
     props: ['posts', 'post'],
     components: { Modal },
+    computed: {
+        formattedDate() {
+            return moment(this.post.date).format('DD/MM/YYYY')
+        }
+    },
     methods: {
         showModal() {
             $('#post-' + this.post.id).modal();
