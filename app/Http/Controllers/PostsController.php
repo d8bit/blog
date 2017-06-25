@@ -17,7 +17,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::translated()
+        $posts = Post::with('translations.language')
             ->orderBy('date', 'desc')
             ->get();
         return \Response::json($posts);
@@ -52,9 +52,6 @@ class PostsController extends Controller
         $translations = $request->get('postTranslations');
         foreach ($translations as $translation) {
             $translation = json_decode($translation);
-            if ($translation->title == '') {
-                continue;
-            }
             $postTranslation = new PostTranslation();
             $postTranslation->title = $translation->title;
             $postTranslation->body = $translation->body;
@@ -96,7 +93,22 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::with('translations')->findOrFail($id);
+        $post->date = $request->get('date');
+        if ($request->hasFile('image')) {
+            $request->image->store('public/images');
+            $fileName = $request->image->hashName();
+            $post->image = 'images/'.$fileName;
+        }
+        $post->save();
+        $postTranslations = $request->get('translations');
+        foreach ($postTranslations as $postTranslation) {
+            $translation = PostTranslation::findOrFail($postTranslation['id']);
+            $translation->title = $postTranslation['title'];
+            $translation->body = $postTranslation['body'];
+            $translation->save();
+        }
+        return \Response::json($post);
     }
 
     /**

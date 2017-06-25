@@ -17,7 +17,12 @@ export const addPost = (context, post) => {
     axios.post('/posts', post).then(response => {
         context.commit('addPost', response.data);
         console.log('Post added. Response', response);
-        console.log('Post added');
+    });
+};
+
+export const editPost = (conext, post) => {
+    axios.put('/posts/' + post.id, post).then(response => {
+        console.log('Post edited. Response', response);
     });
 };
 
