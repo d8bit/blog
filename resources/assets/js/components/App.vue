@@ -25,12 +25,3 @@ export default {
     }
 }
 </script>
-<style>
-img {
-    width: 100%;
-}
-
-.btn-remove {
-    margin: 10px;
-}
-</style>

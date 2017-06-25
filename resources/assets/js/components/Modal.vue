@@ -35,7 +35,7 @@
                                 <div  v-else>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <img :src="'storage/' + post.image" alt="">
+                                            <img :src="getImage" alt="">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -65,13 +65,23 @@ export default {
     props: ['posts', 'post'],
     data() {
         return {
+            image: '',
+            imageField: '',
+            imageExists: false,
             activeTabClass: 'in active',
             tabClass: 'tab-pane fade'
         }
     },
     methods: {
         editPost() {
-            this.$store.dispatch('editPost', this.post);
+            let that = this;
+            let formData = new FormData();
+            formData.append('date', this.post.date);
+            console.warn('form', formData);
+            // for (let i = 0; i < this.post.translations.length; i++) {
+            //     formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
+            // }
+            this.$store.dispatch('editPost', formData);
             $('#post-' + this.post.id).modal('hide');
         },
         onFileChange(e) {
@@ -82,17 +92,34 @@ export default {
             this.imageField = files[0];
         },
         createImage(file) {
+            let that = this;
             let image = new Image();
             let reader = new FileReader();
-            let that = this;
             reader.onload = (e) => {
-                that.image = e.target.result;
+                that.post.image = e.target.result;
             };
             reader.readAsDataURL(file);
         },
         removeImage: function (e) {
             this.post.image = '';
-        },
+            this.imageExists = false;
+        }
+    },
+    computed: {
+        getImage() {
+            if (this.post.image) {
+                if (this.imageExists) {
+                    return 'storage/' + this.post.image;
+                } else {
+                    return this.post.image;
+                }
+            }
+        }
+    },
+    created() {
+        if (this.post.image) {
+            this.imageExists = true;
+        }
     },
     mounted() {
         console.log('Component Modal mounted.')

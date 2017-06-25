@@ -107,6 +107,7 @@ export default {
             let that = this;
             reader.onload = (e) => {
                 that.image = e.target.result;
+                console.warn('loading image');
             };
             reader.readAsDataURL(file);
         },
@@ -130,3 +131,12 @@ export default {
     }
 }
 </script>
+<style>
+img {
+    width: 50%;
+}
+
+.btn-remove {
+    margin: 10px;
+}
+</style>
