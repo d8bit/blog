@@ -72,6 +72,13 @@ export default {
         editPost() {
             console.log('edit post');
         },
+        onFileChange(e) {
+            var files = e.target.files || e.dataTransfer.files;
+            if (!files.length)
+                return;
+            this.createImage(files[0]);
+            this.imageField = files[0];
+        },
         removeImage: function (e) {
             this.post.image = '';
         },

@@ -52,9 +52,6 @@ class PostsController extends Controller
         $translations = $request->get('postTranslations');
         foreach ($translations as $translation) {
             $translation = json_decode($translation);
-            if ($translation->title == '') {
-                continue;
-            }
             $postTranslation = new PostTranslation();
             $postTranslation->title = $translation->title;
             $postTranslation->body = $translation->body;
