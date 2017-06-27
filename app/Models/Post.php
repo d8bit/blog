@@ -29,4 +29,12 @@ class Post extends Model
         return date("Y-m-d", strtotime($value));
     }
 
+    public function getImageAttribute($value)
+    {
+        if ("" !== $value) {
+            return 'storage/'.$value;
+        }
+        return $value;
+    }
+
 }

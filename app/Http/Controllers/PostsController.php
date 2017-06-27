@@ -58,7 +58,8 @@ class PostsController extends Controller
             $postTranslation->language_id = $translation->language_id;
             $post->translations()->save($postTranslation);
         }
-        $post = Post::translated()->find($post->id);
+        $post = Post::with('translations.language')
+            ->findOrFail($post->id);
         return \Response::json($post);
     }
 
@@ -94,14 +95,14 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         $post = Post::with('translations')->findOrFail($id);
-        $post->date = $request->get('date');
+        $post->date = $request->input('date');
         if ($request->hasFile('image')) {
             $request->image->store('public/images');
             $fileName = $request->image->hashName();
             $post->image = 'images/'.$fileName;
         }
         $post->save();
-        $postTranslations = $request->get('translations');
+        $postTranslations = $request->input('translations');
         foreach ($postTranslations as $postTranslation) {
             $translation = PostTranslation::findOrFail($postTranslation['id']);
             $translation->title = $postTranslation['title'];

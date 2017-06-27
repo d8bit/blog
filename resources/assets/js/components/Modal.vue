@@ -35,7 +35,7 @@
                                 <div  v-else>
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <img :src="getImage" alt="">
+                                            <img :src="post.image" alt="">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -67,22 +67,22 @@ export default {
         return {
             image: '',
             imageField: '',
-            imageExists: false,
+            date: '',
             activeTabClass: 'in active',
             tabClass: 'tab-pane fade'
         }
     },
     methods: {
         editPost() {
-            let that = this;
             let formData = new FormData();
-            formData.append('date', this.post.date);
-            console.warn('form', formData);
-            // for (let i = 0; i < this.post.translations.length; i++) {
-            //     formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
-            // }
+            formData.id = this.post.id;
+            formData.append('id', this.post.id);
+            formData.append('image', this.imageField);
+            for (let i = 0; i < this.post.translations.length; i++) {
+                formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
+            }
             this.$store.dispatch('editPost', formData);
-            $('#post-' + this.post.id).modal('hide');
+            // $('#post-' + this.post.id).modal('hide');
         },
         onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
@@ -102,23 +102,6 @@ export default {
         },
         removeImage: function (e) {
             this.post.image = '';
-            this.imageExists = false;
-        }
-    },
-    computed: {
-        getImage() {
-            if (this.post.image) {
-                if (this.imageExists) {
-                    return 'storage/' + this.post.image;
-                } else {
-                    return this.post.image;
-                }
-            }
-        }
-    },
-    created() {
-        if (this.post.image) {
-            this.imageExists = true;
         }
     },
     mounted() {

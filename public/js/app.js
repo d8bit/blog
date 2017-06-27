@@ -27235,7 +27235,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             image: '',
             imageField: '',
-            imageExists: false,
+            date: '',
             activeTabClass: 'in active',
             tabClass: 'tab-pane fade'
         };
@@ -27243,15 +27243,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         editPost: function editPost() {
-            var that = this;
             var formData = new FormData();
-            formData.append('date', this.post.date);
-            console.warn('form', formData);
-            // for (let i = 0; i < this.post.translations.length; i++) {
-            //     formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
-            // }
+            formData.id = this.post.id;
+            formData.append('id', this.post.id);
+            formData.append('image', this.imageField);
+            for (var i = 0; i < this.post.translations.length; i++) {
+                formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
+            }
             this.$store.dispatch('editPost', formData);
-            $('#post-' + this.post.id).modal('hide');
+            // $('#post-' + this.post.id).modal('hide');
         },
         onFileChange: function onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
@@ -27271,23 +27271,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         removeImage: function removeImage(e) {
             this.post.image = '';
-            this.imageExists = false;
-        }
-    },
-    computed: {
-        getImage: function getImage() {
-            if (this.post.image) {
-                if (this.imageExists) {
-                    return 'storage/' + this.post.image;
-                } else {
-                    return this.post.image;
-                }
-            }
-        }
-    },
-    created: function created() {
-        if (this.post.image) {
-            this.imageExists = true;
         }
     },
     mounted: function mounted() {
@@ -29944,7 +29927,13 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 158 */,
+/* 158 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(159)();
+exports.push([module.i, "\nimg {\n    width: 50%;\n}\n.btn-remove {\n    margin: 10px;\n}\n", ""]);
+
+/***/ }),
 /* 159 */
 /***/ (function(module, exports) {
 
@@ -57834,7 +57823,7 @@ module.exports = Component.exports
 
 
 /* styles */
-__webpack_require__(189)
+__webpack_require__(174)
 
 var Component = __webpack_require__(2)(
   /* script */
@@ -58177,7 +58166,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v(_vm._s(_vm.post.translations[0].title) + " (" + _vm._s(_vm.formattedDate) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
     attrs: {
-      "src": 'storage/' + _vm.post.image,
+      "src": _vm.post.image,
       "alt": ""
     }
   })]) : _vm._e(), _vm._v(" "), _c('button', {
@@ -58354,7 +58343,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-6"
   }, [_c('img', {
     attrs: {
-      "src": _vm.getImage,
+      "src": _vm.post.image,
       "alt": ""
     }
   })])]), _vm._v(" "), _c('div', {
@@ -58459,7 +58448,32 @@ if (false) {
 }
 
 /***/ }),
-/* 174 */,
+/* 174 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(158);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(175)("bd8bba6e", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5482385d\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormPost.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5482385d\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormPost.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
 /* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -59533,48 +59547,6 @@ var index_esm = {
 __webpack_require__(127);
 module.exports = __webpack_require__(128);
 
-
-/***/ }),
-/* 179 */,
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(159)();
-exports.push([module.i, "\nimg {\n    width: 50%;\n}\n.btn-remove {\n    margin: 10px;\n}\n", ""]);
-
-/***/ }),
-/* 189 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(188);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(175)("bd8bba6e", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5482385d\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormPost.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5482385d\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FormPost.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
 
 /***/ })
 /******/ ]);
