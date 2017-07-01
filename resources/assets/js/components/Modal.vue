@@ -70,7 +70,7 @@ export default {
             date: '',
             activeTabClass: 'in active',
             tabClass: 'tab-pane fade'
-        }
+        };
     },
     methods: {
         editPost() {
@@ -93,19 +93,19 @@ export default {
         },
         createImage(file) {
             let that = this;
-            let image = new Image();
+            // let image = new Image();
             let reader = new FileReader();
             reader.onload = (e) => {
                 that.post.image = e.target.result;
             };
             reader.readAsDataURL(file);
         },
-        removeImage: function (e) {
+        removeImage: function () {
             this.post.image = '';
         }
     },
     mounted() {
-        console.log('Component Modal mounted.')
+        console.log('Component Modal mounted.');
     }
-}
+};
 </script>

@@ -48,6 +48,8 @@
 </template>
 
 <script>
+/* global moment,axios */
+
 export default {
     data() {
         return {
@@ -57,7 +59,7 @@ export default {
             postTranslations: [],
             activeTabClass: 'in active',
             tabClass: 'tab-pane fade'
-        }
+        };
     },
     methods: {
         initForm() {
@@ -78,13 +80,12 @@ export default {
                     };
                     that.postTranslations.push(postTranslation);
                 });
-                console.log("Fetched languages")
+                console.log('Fetched languages');
             });
 
-            console.log("Fetched languages")
+            console.log('Fetched languages');
         },
         createPost() {
-            let that = this;
             let formData = new FormData();
             formData.append('image', this.imageField);
             formData.append('date', this.date);
@@ -102,7 +103,7 @@ export default {
             this.imageField = files[0];
         },
         createImage(file) {
-            let image = new Image();
+            // let image = new Image();
             let reader = new FileReader();
             let that = this;
             reader.onload = (e) => {
@@ -111,7 +112,7 @@ export default {
             };
             reader.readAsDataURL(file);
         },
-        removeImage: function (e) {
+        removeImage: function () {
             this.image = '';
         },
         resetFields() {
@@ -127,9 +128,9 @@ export default {
     },
     mounted() {
         this.initForm();
-        console.log('Component PostList mounted.')
+        console.log('Component PostList mounted.');
     }
-}
+};
 </script>
 <style>
 img {

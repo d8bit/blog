@@ -1,3 +1,4 @@
+/* global axios */
 
 export const initLanguages = (context) => {
     axios.get('/languages').then(response => {
