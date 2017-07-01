@@ -102,11 +102,12 @@ class PostsController extends Controller
             $post->image = 'images/'.$fileName;
         }
         $post->save();
-        $postTranslations = $request->input('translations');
+        $postTranslations = $request->input('postTranslations');
         foreach ($postTranslations as $postTranslation) {
-            $translation = PostTranslation::findOrFail($postTranslation['id']);
-            $translation->title = $postTranslation['title'];
-            $translation->body = $postTranslation['body'];
+            $postTranslation = json_decode($postTranslation);
+            $translation = PostTranslation::findOrFail($postTranslation->id);
+            $translation->title = $postTranslation->title;
+            $translation->body = $postTranslation->body;
             $translation->save();
         }
         return \Response::json($post);

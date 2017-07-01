@@ -16350,7 +16350,7 @@ return zhTw;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {/*!
- * Vue.js v2.3.3
+ * Vue.js v2.3.4
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -20779,7 +20779,7 @@ Object.defineProperty(Vue$3.prototype, '$ssrContext', {
   }
 });
 
-Vue$3.version = '2.3.3';
+Vue$3.version = '2.3.4';
 
 /*  */
 
@@ -21270,6 +21270,7 @@ function createPatchFunction (backend) {
   function initComponent (vnode, insertedVnodeQueue) {
     if (isDef(vnode.data.pendingInsert)) {
       insertedVnodeQueue.push.apply(insertedVnodeQueue, vnode.data.pendingInsert);
+      vnode.data.pendingInsert = null;
     }
     vnode.elm = vnode.componentInstance.$el;
     if (isPatchable(vnode)) {
@@ -27074,6 +27075,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+/* global moment,axios */
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
@@ -27107,13 +27110,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     };
                     that.postTranslations.push(postTranslation);
                 });
-                console.log("Fetched languages");
+                console.log('Fetched languages');
             });
 
-            console.log("Fetched languages");
+            console.log('Fetched languages');
         },
         createPost: function createPost() {
-            var that = this;
             var formData = new FormData();
             formData.append('image', this.imageField);
             formData.append('date', this.date);
@@ -27130,7 +27132,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.imageField = files[0];
         },
         createImage: function createImage(file) {
-            var image = new Image();
+            // let image = new Image();
             var reader = new FileReader();
             var that = this;
             reader.onload = function (e) {
@@ -27140,7 +27142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             reader.readAsDataURL(file);
         },
 
-        removeImage: function removeImage(e) {
+        removeImage: function removeImage() {
             this.image = '';
         },
         resetFields: function resetFields() {
@@ -27244,14 +27246,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         editPost: function editPost() {
             var formData = new FormData();
-            formData.id = this.post.id;
-            formData.append('id', this.post.id);
+            formData.append('postId', this.post.id);
             formData.append('image', this.imageField);
+            formData.append('date', this.post.date);
             for (var i = 0; i < this.post.translations.length; i++) {
                 formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
             }
             this.$store.dispatch('editPost', formData);
-            // $('#post-' + this.post.id).modal('hide');
+            $('#post-' + this.post.id).modal('hide');
         },
         onFileChange: function onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
@@ -27261,7 +27263,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         createImage: function createImage(file) {
             var that = this;
-            var image = new Image();
+            // let image = new Image();
             var reader = new FileReader();
             reader.onload = function (e) {
                 that.post.image = e.target.result;
@@ -27269,7 +27271,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             reader.readAsDataURL(file);
         },
 
-        removeImage: function removeImage(e) {
+        removeImage: function removeImage() {
             this.post.image = '';
         }
     },
@@ -27432,6 +27434,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addPost", function() { return addPost; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editPost", function() { return editPost; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deletePost", function() { return deletePost; });
+/* global axios */
 
 var initLanguages = function initLanguages(context) {
     axios.get('/languages').then(function (response) {
@@ -27454,8 +27457,9 @@ var addPost = function addPost(context, post) {
     });
 };
 
-var editPost = function editPost(conext, post) {
-    axios.put('/posts/' + post.id, post).then(function (response) {
+var editPost = function editPost(conext, formData) {
+    formData.append('_method', 'put');
+    axios.post('/posts/' + formData.get('postId'), formData).then(function (response) {
         console.log('Post edited. Response', response);
     });
 };

@@ -21,8 +21,9 @@ export const addPost = (context, post) => {
     });
 };
 
-export const editPost = (conext, post) => {
-    axios.put('/posts/' + post.id, post).then(response => {
+export const editPost = (conext, formData) => {
+    formData.append('_method', 'put');
+    axios.post('/posts/' + formData.get('postId'), formData).then(response => {
         console.log('Post edited. Response', response);
     });
 };

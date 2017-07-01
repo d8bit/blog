@@ -75,14 +75,14 @@ export default {
     methods: {
         editPost() {
             let formData = new FormData();
-            formData.id = this.post.id;
-            formData.append('id', this.post.id);
+            formData.append('postId', this.post.id);
             formData.append('image', this.imageField);
+            formData.append('date', this.post.date);
             for (let i = 0; i < this.post.translations.length; i++) {
                 formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
             }
             this.$store.dispatch('editPost', formData);
-            // $('#post-' + this.post.id).modal('hide');
+            $('#post-' + this.post.id).modal('hide');
         },
         onFileChange(e) {
             var files = e.target.files || e.dataTransfer.files;
