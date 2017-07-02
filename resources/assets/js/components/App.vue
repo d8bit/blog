@@ -21,7 +21,7 @@ export default {
         this.$store.dispatch('initPosts');
     },
     mounted() {
-        console.log('Component App mounted.')
+        console.log('Component App mounted.');
     }
-}
+};
 </script>

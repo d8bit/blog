@@ -22,8 +22,17 @@ export const addPost = (context, post) => {
 };
 
 export const editPost = (conext, formData) => {
+    $('.progress').show();
+    let axiosConfig = {
+        onUploadProgress: progressEvent => {
+            let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+            $('#progress-bar').css('width', percentCompleted + '%');
+        }
+    };
     formData.append('_method', 'put');
-    axios.post('/posts/' + formData.get('postId'), formData).then(response => {
+    axios.post('/posts/' + formData.get('postId'), formData, axiosConfig).then(response => {
+        $('#progress-bar').css('width', '0%');
+        $('.progress').hide();
         console.log('Post edited. Response', response);
     });
 };

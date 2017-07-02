@@ -27459,8 +27459,17 @@ var addPost = function addPost(context, post) {
 };
 
 var editPost = function editPost(conext, formData) {
+    $('.progress').show();
+    var axiosConfig = {
+        onUploadProgress: function onUploadProgress(progressEvent) {
+            var percentCompleted = Math.floor(progressEvent.loaded * 100 / progressEvent.total);
+            $('#progress-bar').css('width', percentCompleted + '%');
+        }
+    };
     formData.append('_method', 'put');
-    axios.post('/posts/' + formData.get('postId'), formData).then(function (response) {
+    axios.post('/posts/' + formData.get('postId'), formData, axiosConfig).then(function (response) {
+        $('#progress-bar').css('width', '0%');
+        $('.progress').hide();
         console.log('Post edited. Response', response);
     });
 };
