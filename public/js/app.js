@@ -27307,6 +27307,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* global moment  */
 
@@ -58155,7 +58158,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('input', {
     staticClass: "btn btn-primary",
     attrs: {
-      "type": "submit"
+      "type": "submit",
+      "value": "Save"
     }
   })])])
 },staticRenderFns: []}
@@ -58172,19 +58176,25 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', [_c('h2', [_c('span', {
+  return _c('div', [_c('div', [_c('h2', [_c('span', [_vm._v(_vm._s(_vm.post.translations[0].title) + " (" + _vm._s(_vm.formattedDate) + ")")])]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
+    attrs: {
+      "src": _vm.post.image,
+      "alt": ""
+    }
+  })]) : _vm._e(), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.post.translations[0].body))]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default",
     on: {
       "click": function($event) {
         $event.preventDefault();
         _vm.showModal()
       }
     }
-  }, [_vm._v(_vm._s(_vm.post.translations[0].title) + " (" + _vm._s(_vm.formattedDate) + ")")]), _vm._v(" "), (_vm.post.image) ? _c('div', [_c('img', {
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-pencil",
     attrs: {
-      "src": _vm.post.image,
-      "alt": ""
+      "aria-hidden": "true"
     }
-  })]) : _vm._e(), _vm._v(" "), _c('button', {
+  }, [_vm._v("Edit")])]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-danger",
     on: {
       "click": function($event) {
@@ -58197,14 +58207,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })])]), _vm._v(" "), _c('p', {
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.showModal()
-      }
-    }
-  }, [_vm._v(_vm._s(_vm.post.translations[0].body))])]), _vm._v(" "), _c('Modal', {
+  }, [_vm._v("Delete")])])]), _vm._v(" "), _c('Modal', {
     key: _vm.post.id,
     attrs: {
       "post": _vm.post
@@ -58402,7 +58405,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('input', {
     staticClass: "btn btn-primary",
     attrs: {
-      "type": "submit"
+      "type": "submit",
+      "value": "Save"
     }
   })])])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -58421,7 +58425,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("×")])]), _vm._v(" "), _c('h4', {
     staticClass: "modal-title"
-  }, [_vm._v("Modal title")])])
+  }, [_vm._v("Edit post")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

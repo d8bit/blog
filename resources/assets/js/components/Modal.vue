@@ -5,7 +5,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Modal title</h4>
+                        <h4 class="modal-title">Edit post</h4>
                     </div>
                     <div class="modal-body">
                         <ul class="nav nav-tabs">
@@ -51,7 +51,7 @@
                                 <label for="date">Date</label>
                                 <input class="form-control" type="date" v-model="post.date" name="date">
                             </div>
-                            <input class="btn btn-primary" type="submit">
+                            <input class="btn btn-primary" type="submit" value="Save">
                         </form>
                     </div>
                 </div><!-- /.modal-content -->
