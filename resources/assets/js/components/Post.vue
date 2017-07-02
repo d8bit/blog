@@ -17,13 +17,14 @@
 </template>
 
 <script>
+/* global moment  */
 import Modal from './Modal.vue';
 export default {
     props: ['posts', 'post'],
     components: { Modal },
     computed: {
         formattedDate() {
-            return moment(this.post.date).format('DD/MM/YYYY')
+            return moment(this.post.date).format('DD/MM/YYYY');
         }
     },
     methods: {
@@ -35,7 +36,7 @@ export default {
         }
     },
     mounted() {
-        console.log('Component Post mounted.')
+        console.log('Component Post mounted.');
     }
-}
+};
 </script>

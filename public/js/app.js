@@ -27308,6 +27308,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+/* global moment  */
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['posts', 'post'],
