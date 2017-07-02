@@ -96,10 +96,14 @@ class PostsController extends Controller
     {
         $post = Post::with('translations')->findOrFail($id);
         $post->date = $request->input('date');
-        if ($request->hasFile('image')) {
-            $request->image->store('public/images');
-            $fileName = $request->image->hashName();
+        if ($request->hasFile('imageField')) {
+            $request->imageField->store('public/images');
+            $fileName = $request->imageField->hashName();
             $post->image = 'images/'.$fileName;
+        }
+        if (!$request->hasFile('imageField') && '' == $request->input('image')) {
+            \Storage::delete('public/'.$post->image);
+            $post->image = '';
         }
         $post->save();
         $postTranslations = $request->input('postTranslations');
@@ -123,7 +127,7 @@ class PostsController extends Controller
     {
         $post = Post::findOrFail($id);
         if ('' != $post->image) {
-            $res = \Storage::delete('public/'.$post->image);
+            \Storage::delete('public/'.$post->image);
         }
         if ($post->delete()) {
             return \Response::json('Post deleted');

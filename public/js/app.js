@@ -27247,7 +27247,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         editPost: function editPost() {
             var formData = new FormData();
             formData.append('postId', this.post.id);
-            formData.append('image', this.imageField);
+            formData.append('imageField', this.imageField);
+            formData.append('image', this.post.image);
             formData.append('date', this.post.date);
             for (var i = 0; i < this.post.translations.length; i++) {
                 formData.append('postTranslations[' + i + ']', JSON.stringify(this.post.translations[i]));
