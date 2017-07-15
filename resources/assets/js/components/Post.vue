@@ -2,15 +2,18 @@
     <div>
         <div>
             <h2>
-                <span v-on:click.prevent="showModal()">{{ post.translations[0].title }} ({{ formattedDate }})</span>
-                <div v-if="post.image">
-                    <img :src="post.image" alt="">
-                </div>
-                <button class="btn btn-danger" v-on:click.prevent="deletePost()">
-                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                </button>
+                <span>{{ post.translations[0].title }} ({{ formattedDate }})</span>
             </h2>
-            <p v-on:click.prevent="showModal()">{{ post.translations[0].body }}</p>
+            <div v-if="post.image">
+                <img :src="post.image" alt="">
+            </div>
+            <p>{{ post.translations[0].body }}</p>
+            <button class="btn btn-default" v-on:click.prevent="showModal()">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true">Edit</span>
+            </button>
+            <button class="btn btn-danger" v-on:click.prevent="deletePost()">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true">Delete</span>
+            </button>
         </div>
         <Modal v-bind:post="post" v-bind:key="post.id"></Modal>
     </div>
