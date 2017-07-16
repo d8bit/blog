@@ -22,3 +22,36 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        'image' => $faker->imageUrl,
+        'created_at' => date('Y-m-d H:i:s'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+});
+
+$factory->define(App\Models\PostTranslation::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        'language_id' => $faker->imageUrl,
+        'post_id' => 1,
+        'title' => $faker->sentence,
+        'body' => $faker->paragraph,
+        'created_at' => date('Y-m-d H:i:s'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+});
+
+$factory->define(App\Models\Language::class, function (Faker\Generator $faker) {
+    static $password;
+
+    return [
+        'name' => str_random(2),
+        'created_at' => date('Y-m-d H:i:s'),
+        'updated_at' => date('Y-m-d H:i:s')
+    ];
+});
