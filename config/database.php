@@ -51,7 +51,7 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'strict' => false,
-            'engine' => 'MyISAM',
+            'engine' => null,
         ],
 
         'pgsql' => [
