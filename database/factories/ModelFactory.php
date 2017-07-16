@@ -37,7 +37,7 @@ $factory->define(App\Models\PostTranslation::class, function (Faker\Generator $f
     static $password;
 
     return [
-        'language_id' => $faker->imageUrl,
+        'language_id' => 1,
         'post_id' => 1,
         'title' => $faker->sentence,
         'body' => $faker->paragraph,
