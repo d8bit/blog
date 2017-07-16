@@ -24,34 +24,23 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
-    static $password;
-
     return [
         'image' => $faker->imageUrl,
-        'created_at' => date('Y-m-d H:i:s'),
-        'updated_at' => date('Y-m-d H:i:s')
+        'date' => date('Y-m-d H:i:s')
     ];
 });
 
 $factory->define(App\Models\PostTranslation::class, function (Faker\Generator $faker) {
-    static $password;
-
     return [
-        'language_id' => 1,
-        'post_id' => 1,
+        'language_id' => $faker->numberBetween(1, 2),
+        'post_id' => $faker->numberBetween(1, 5),
         'title' => $faker->sentence,
-        'body' => $faker->paragraph,
-        'created_at' => date('Y-m-d H:i:s'),
-        'updated_at' => date('Y-m-d H:i:s')
+        'body' => $faker->paragraph
     ];
 });
 
 $factory->define(App\Models\Language::class, function (Faker\Generator $faker) {
-    static $password;
-
     return [
-        'name' => str_random(2),
-        'created_at' => date('Y-m-d H:i:s'),
-        'updated_at' => date('Y-m-d H:i:s')
+        'name' => str_random(2)
     ];
 });

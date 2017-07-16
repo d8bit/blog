@@ -11,7 +11,7 @@ class PostsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Post::class, 50)->create()->each(function ($post) {
+        factory(App\Models\Post::class, 5)->create()->each(function ($post) {
             $post->translations()->save(factory(App\Models\PostTranslation::class)->make());
         });
     }
