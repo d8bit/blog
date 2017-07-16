@@ -24,8 +24,13 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
+    $rand = $faker->numberBetween(1,2);
+    $imageUrl = '';
+    if (1 == $rand) {
+        $imageUrl = $faker->imageUrl;
+    }
     return [
-        'image' => $faker->imageUrl,
+        'image' => $imageUrl,
         'date' => date('Y-m-d H:i:s')
     ];
 });
@@ -33,7 +38,6 @@ $factory->define(App\Models\Post::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\PostTranslation::class, function (Faker\Generator $faker) {
     return [
         'language_id' => $faker->numberBetween(1, 2),
-        'post_id' => $faker->numberBetween(1, 5),
         'title' => $faker->sentence,
         'body' => $faker->paragraph
     ];
@@ -41,6 +45,6 @@ $factory->define(App\Models\PostTranslation::class, function (Faker\Generator $f
 
 $factory->define(App\Models\Language::class, function (Faker\Generator $faker) {
     return [
-        'name' => str_random(2)
+        'name' => $faker->languageCode
     ];
 });
