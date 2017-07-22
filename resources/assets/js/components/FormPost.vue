@@ -1,13 +1,13 @@
 <template>
     <div>
         <ul class="nav nav-tabs">
-            <li v-for="language in $store.getters.allLanguages" v-bind:class="{ active: (language.name == 'es')}" >
+            <li v-for="language in $store.getters.allLanguages" v-bind:class="{ active: (language.default == '1')}" >
                 <a data-toggle="tab" v-bind:href="'#language' + language.name">{{language.name}}</a>
             </li>
         </ul>
         <form name="new-post" v-on:submit.prevent="createPost" method="post" enctype="multipart/form-data">
             <div class="tab-content">
-                <div v-for="(postTranslation, index) in postTranslations" v-bind:id="'language' + postTranslation.language" v-bind:class="[(postTranslation.language == 'es') ? activeTabClass:'', tabClass]">
+                <div v-for="(postTranslation, index) in postTranslations" v-bind:id="'language' + postTranslation.language" v-bind:class="[(postTranslation.default == 1) ? activeTabClass:'', tabClass]">
                     <div class="form-group">
                         <label v-bind:for="postTranslation.title">Title</label>
                         <input class="form-control" type="text" v-model="postTranslations[index].title" v-bind:name="'title_' + postTranslation.language">
@@ -76,7 +76,8 @@ export default {
                         'image': '',
                         'date': '',
                         'language_id': item.id,
-                        'language': item.name
+                        'language': item.name,
+                        'default': item.default
                     };
                     that.postTranslations.push(postTranslation);
                 });

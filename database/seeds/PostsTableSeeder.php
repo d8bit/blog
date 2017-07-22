@@ -12,7 +12,12 @@ class PostsTableSeeder extends Seeder
     public function run()
     {
         factory(App\Models\Post::class, 5)->create()->each(function ($post) {
-            $post->translations()->save(factory(App\Models\PostTranslation::class)->make());
+            $languages = \App\Models\Language::all();
+            foreach ($languages as $language) {
+                $translation = factory(App\Models\PostTranslation::class)->make();
+                $translation->language_id = $language->id;
+                $post->translations()->save($translation);
+            }
         });
     }
 }

@@ -11,6 +11,12 @@ class LanguagesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Language::class, 2)->create();
+        $languages = factory(App\Models\Language::class, 2)->make();
+        foreach ($languages as $language) {
+            $language->save();
+        }
+        $language = factory(App\Models\Language::class)->make();
+        $language->default = true;
+        $language->save();
     }
 }

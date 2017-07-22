@@ -45,6 +45,7 @@ $factory->define(App\Models\PostTranslation::class, function (Faker\Generator $f
 
 $factory->define(App\Models\Language::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->languageCode
+        'name' => $faker->languageCode,
+        'default' => false
     ];
 });
