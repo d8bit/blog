@@ -54,26 +54,15 @@ class PostsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $postId)
     {
-        $post = Post::with('translations')->findOrFail($id);
+        $post = Post::with('translations')->findOrFail($postId);
         $post->date = $request->input('date');
         if ($request->hasFile('imageField')) {
             $request->imageField->store('public/images');
@@ -102,9 +91,9 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($postId)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::findOrFail($postId);
         if ('' != $post->image) {
             \Storage::delete('public/'.$post->image);
         }
