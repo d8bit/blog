@@ -22,5 +22,11 @@ class GetTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testHome()
+    {
+        $response = $this->get('/');
+        $response->assertStatus(200);
+    }
+
 }
 
