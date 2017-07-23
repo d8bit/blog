@@ -10,12 +10,12 @@
                     <div class="modal-body">
                         <ul class="nav nav-tabs">
                             <li v-for="language in $store.getters.allLanguages" v-bind:class="{ active: (language.default == '1')}" >
-                                <a data-toggle="tab" v-bind:href="'#language_' + language.name">{{language.name}}</a>
+                                <a data-toggle="tab" v-bind:href="'#' + post.id + '_language_' + language.name">{{language.name}}</a>
                             </li>
                         </ul>
                         <form name="new-post" v-on:submit.prevent="editPost" method="post" enctype="multipart/form-data">
                             <div class="tab-content">
-                                <div v-for="(postTranslation, index) in post.translations" v-bind:id="'language_' + postTranslation.language.name" v-bind:class="[(postTranslation.language.default == '1') ? activeTabClass:'', tabClass]">
+                                <div v-for="(postTranslation, index) in post.translations" v-bind:id="post.id + '_language_' + postTranslation.language.name" v-bind:class="[(postTranslation.language.default == '1') ? activeTabClass:'', tabClass]">
                                     <input type="hidden" name="id" :value="post.translations[index].id">
                                     <div class="form-group">
                                         <label v-bind:for="postTranslation.title">Title</label>

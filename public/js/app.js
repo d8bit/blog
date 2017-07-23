@@ -58254,7 +58254,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_c('a', {
       attrs: {
         "data-toggle": "tab",
-        "href": '#language_' + language.name
+        "href": '#' + _vm.post.id + '_language_' + language.name
       }
     }, [_vm._v(_vm._s(language.name))])])
   })), _vm._v(" "), _c('form', {
@@ -58275,7 +58275,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', {
       class: [(postTranslation.language.default == '1') ? _vm.activeTabClass : '', _vm.tabClass],
       attrs: {
-        "id": 'language_' + postTranslation.language.name
+        "id": _vm.post.id + '_language_' + postTranslation.language.name
       }
     }, [_c('input', {
       attrs: {
