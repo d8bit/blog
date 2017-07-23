@@ -18,6 +18,17 @@ class PostTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function testUpdatePost()
+    {
+        $post = \App\Models\Post::inRandomOrder()->first();
+        $response = $this->json(
+            'PUT',
+            '/posts/'.$post->id,
+            $post->toArray()
+        );
+        $response->assertStatus(200);
+    }
+
     public function testDeleletePost()
     {
         $post = \App\Models\Post::inRandomOrder()->first();

@@ -70,11 +70,16 @@ class PostsController extends Controller
             $post->image = 'images/'.$fileName;
         }
         if (!$request->hasFile('imageField') && '' == $request->input('image')) {
-            \Storage::delete('public/'.$post->image);
+            if (\Storage::exists('public/'.$post->image) && '' != $post->image) {
+                \Storage::delete('public/'.$post->image);
+            }
             $post->image = '';
         }
         $post->save();
         $postTranslations = $request->input('postTranslations');
+        if (0 == count($postTranslations)) {
+            return \Response::json($post);
+        }
         foreach ($postTranslations as $postTranslation) {
             $postTranslation = json_decode($postTranslation);
             $translation = PostTranslation::findOrFail($postTranslation->id);
