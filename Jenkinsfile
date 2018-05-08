@@ -33,5 +33,11 @@ fi'''
         }
       }
     }
+    stage('Clean') {
+      steps {
+        sleep 5
+        timeout(time: 1)
+      }
+    }
   }
 }
